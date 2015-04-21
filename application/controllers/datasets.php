@@ -12,6 +12,8 @@ class Datasets extends CIE_Controller
     {
         $this->enableCache();
         $navItem = $this->doctrine->em->getRepository('Entities\NavItem')->findOneBy(array('customurl' => 'datasets'));
+        if(is_null($navItem))
+            return show_404();
 
         $this->loadData('navItem', $navItem);
 

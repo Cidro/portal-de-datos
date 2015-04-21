@@ -1,80 +1,82 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Noticias extends CIE_Controller {
 
-	public function __construct(){
-		parent::__construct();
-	}
+    public function __construct() {
+        parent::__construct();
+    }
 
-	public function index(){
-  	$this->load->library('pagination');
+    public function index() {
+        $this->load->library('pagination');
 
-  	$limit = 4;
-  	$offset = $this->input->get('offset') ? $this->input->get('offset') : 0;
-  	$orderby = $this->input->get('orderby') ? $this->input->get('orderby') : 'created_at';
-  	if($orderby == 'titulo'){
-  		$orderdir = 'ASC';
-  	}else{
-  		$orderdir = $this->input->get('orderdir') ? $this->input->get('orderdir') : 'DESC';
-  	}
+        $limit = 4;
+        $offset = $this->input->get('offset') ? $this->input->get('offset') : 0;
+        $orderby = $this->input->get('orderby') ? $this->input->get('orderby') : 'created_at';
+        if ($orderby == 'titulo') {
+            $orderdir = 'ASC';
+        } else {
+            $orderdir = $this->input->get('orderdir') ? $this->input->get('orderdir') : 'DESC';
+        }
 
-    $navItem = $this->doctrine->em->getRepository('Entities\NavItem')->findOneBy(array('customurl'=>'noticias'));
 
-    $total = $this->doctrine->em->getRepository('Entities\Noticia')->findWithOrdering(array('total' => true), array($orderby => $orderdir), $limit, $offset);
-    $noticias = $this->doctrine->em->getRepository('Entities\Noticia')->findWithOrdering(null, array($orderby => $orderdir), $limit, $offset);
+        $navItem = $this->doctrine->em->getRepository('Entities\NavItem')->findOneBy(array('customurl' => 'noticias'));
+        if(is_null($navItem))
+            return show_404();
 
-		$pagination_config['base_url'] = site_url('noticias?orderby='.$orderby.'&orderdir='.$orderdir);
-		$pagination_config['total_rows'] = $total;
-		$pagination_config['per_page'] = $limit;
+        $total = $this->doctrine->em->getRepository('Entities\Noticia')->findWithOrdering(array('total' => true), array($orderby => $orderdir), $limit, $offset);
+        $noticias = $this->doctrine->em->getRepository('Entities\Noticia')->findWithOrdering(null, array($orderby => $orderdir), $limit, $offset);
 
-		$this->pagination->initialize($pagination_config);
-  	
-  	$this->loadData('orderby', $orderby);
-  	$this->loadData('offset', $offset);
-  	$this->loadData('limit', $limit);
-  	$this->loadData('total', $total);
-  	$this->loadData('pagination', $this->pagination->create_links());
+        $pagination_config['base_url'] = site_url('noticias?orderby=' . $orderby . '&orderdir=' . $orderdir);
+        $pagination_config['total_rows'] = $total;
+        $pagination_config['per_page'] = $limit;
 
-		$this->loadData('navItem', $navItem);
-		$this->loadData('noticias', $noticias);
+        $this->pagination->initialize($pagination_config);
 
-		$this->setPageTitle('Noticias');
+        $this->loadData('orderby', $orderby);
+        $this->loadData('offset', $offset);
+        $this->loadData('limit', $limit);
+        $this->loadData('total', $total);
+        $this->loadData('pagination', $this->pagination->create_links());
 
-		$this->loadNavs();
-		$this->loadBreadcrumb($this->data);
-		$this->loadBlock('content', 'noticia/listar', $this->data);
+        $this->loadData('navItem', $navItem);
+        $this->loadData('noticias', $noticias);
 
-		$this->renderView('layout');
-	}
+        $this->setPageTitle('Noticias');
 
-	public function ver($noticiaId = 0){
-		$this->enableCache();
-		$navItem = $this->doctrine->em->getRepository('Entities\NavItem')->findOneBy(array('alias'=>'noticias'));
-		$noticia = $this->doctrine->em->getRepository('Entities\Noticia')->find($noticiaId);
+        $this->loadNavs();
+        $this->loadBreadcrumb($this->data);
+        $this->loadBlock('content', 'noticia/listar', $this->data);
 
-		if(!$noticia)
-			show_404('La noticia no ha sido encontrada.');
-		
-		$this->loadData('navItem', $navItem);
-		$this->loadData('noticia', $noticia);
+        $this->renderView('layout');
+    }
 
-		$extra_crumbs[] = array('link' => '', 'title' => $noticia->getTitulo());
+    public function ver($noticiaId = 0) {
+        $this->enableCache();
+        $navItem = $this->doctrine->em->getRepository('Entities\NavItem')->findOneBy(array('alias' => 'noticias'));
+        $noticia = $this->doctrine->em->getRepository('Entities\Noticia')->find($noticiaId);
 
-		$this->setPageTitle($noticia->getTitulo());
+        if (!$noticia) show_404('La noticia no ha sido encontrada.');
 
-		$this->loadNavs();
-		$this->loadBreadcrumb($this->data, $extra_crumbs);
-		$this->loadBlock('content', 'noticia/ver', $this->data);
+        $this->loadData('navItem', $navItem);
+        $this->loadData('noticia', $noticia);
 
-		$this->renderView('layout');
-	}
+        $extra_crumbs[] = array('link' => '', 'title' => $noticia->getTitulo());
 
-  public function rss($limit = 4) {
-    $noticias = $this->doctrine->em->getRepository('Entities\Noticia')->findWithOrdering(null, array('created_at' => 'DESC'), $limit);
-    $this->loadData('noticias', $noticias);
+        $this->setPageTitle($noticia->getTitulo());
 
-    header("Content-Type: application/xml; charset=UTF-8");
-  	$this->load->view('noticia/rss', $this->data);
-  }
+        $this->loadNavs();
+        $this->loadBreadcrumb($this->data, $extra_crumbs);
+        $this->loadBlock('content', 'noticia/ver', $this->data);
+
+        $this->renderView('layout');
+    }
+
+    public function rss($limit = 4) {
+        $noticias = $this->doctrine->em->getRepository('Entities\Noticia')->findWithOrdering(null, array('created_at' => 'DESC'), $limit);
+        $this->loadData('noticias', $noticias);
+
+        header("Content-Type: application/xml; charset=UTF-8");
+        $this->load->view('noticia/rss', $this->data);
+    }
 
 }

@@ -9,7 +9,10 @@ class Page extends CIE_Controller {
 
 	public function index(){
 		$navItem = $this->doctrine->em->getRepository('Entities\NavItem')->findOneBy(array('homepage'=>true));
-		$this->view($navItem->getAlias());
+        $alias = '';
+        if(!is_null($navItem))
+            $alias = $navItem->getAlias();
+		$this->view($alias);
 	}
 
 	public function view($alias = null){
