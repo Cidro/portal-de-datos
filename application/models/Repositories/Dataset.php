@@ -475,8 +475,9 @@ class Dataset extends EntityRepository{
         return $query->getArrayResult();
     }
 
-    public function grabaDataset($dataset, $atributos, $esNuevo = true){
-        $dataset = $this->asignaAtributosDataset($dataset, $atributos);
+    public function grabaDataset($dataset, $atributos = array(), $esNuevo = true){
+        if(!empty($atributos))
+            $dataset = $this->asignaAtributosDataset($dataset, $atributos);
 
         $this->_em->persist($dataset);
         $this->_em->flush();
