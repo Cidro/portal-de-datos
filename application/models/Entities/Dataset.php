@@ -207,6 +207,7 @@ class Dataset
         $this->categorias = new \Doctrine\Common\Collections\ArrayCollection();
         $this->reportes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->vistas = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->doc_id = '';
     }
     
     /**
@@ -436,6 +437,8 @@ class Dataset
      */
     public function getPublicadoAt()
     {
+        if(gettype($this->publicado_at) != 'object')
+            $this->publicado_at = new \DateTime('2000-01-01 00:00:00');
         return $this->publicado_at;
     }
 
@@ -502,6 +505,8 @@ class Dataset
      */
     public function getUpdatedAt()
     {
+        if(gettype($this->updated_at) != 'object')
+            $this->updated_at = new \DateTime('2000-01-01 00:00:00');
         return $this->updated_at;
     }
 
@@ -1338,14 +1343,23 @@ class Dataset
             $result['id'] = $this->id;
             $result['titulo'] = $this->getTitulo();
             $result['descripcion'] = $this->getDescripcion();
-            $result['licencia'] = array(
-                'id' => $this->getLicencia()->getId(),
-                'nombre' => $this->getLicencia()->getNombre()
-            );
-            $result['servicio'] = array(
-                'codigo' => $this->getServicio()->getCodigo(),
-                'nombre' => $this->getServicio()->getNombre()
-            );
+            if($this->getLicencia()){
+                $result['licencia'] = array(
+                    'id' => $this->getLicencia()->getId(),
+                    'nombre' => $this->getLicencia()->getNombre()
+                );
+            } else {
+                $result['licencia'] = array();
+            }
+
+            if(isset($result['servicio']) && $result['servicio']){
+                $result['servicio'] = array(
+                    'codigo' => $this->getServicio()->getCodigo(),
+                    'nombre' => $this->getServicio()->getNombre()
+                );
+            } else {
+                $result['servicio'] = array();
+            }
             $result['categorias'] = array();
 
             foreach($this->getCategorias() as $key => $categoria){
