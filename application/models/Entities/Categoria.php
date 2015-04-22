@@ -178,4 +178,10 @@ class Categoria
     {
         return $this->participaciones;
     }
+
+    public function toArray(){
+        $result['id'] = $this->id;
+        $result['nombre'] = $this->nombre;
+        return $result;
+    }
 }
