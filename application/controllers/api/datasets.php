@@ -1,18 +1,18 @@
 <?php
-require(APPPATH.'libraries/REST_Controller.php');
+require(APPPATH . 'libraries/REST_Controller.php');
 
-class Api extends REST_Controller
-{
-    public function __construct()
-    {
+class Datasets extends REST_Controller {
+
+    function __construct() {
         parent::__construct();
     }
-    public function datasets_get()
+
+    public function index_get()
     {
         echo 1;
     }
 
-    public function datasets_post()
+    public function index_post()
     {
         $this->load->helper('array');
         $nombre_servicio = $this->post('servicio', true);
@@ -62,5 +62,6 @@ class Api extends REST_Controller
             $this->response($dataset->toArray());
         }
     }
+
+
 }
-?>
