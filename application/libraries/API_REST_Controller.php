@@ -24,11 +24,12 @@ class API_REST_Controller extends REST_Controller {
     /**
      * Prepara los parametros de ordenamiento
      * @param array $params
+     * @param string $default
      * @return array
      */
-    protected function getOrdering($params) {
+    protected function getOrdering($params, $default = 'id') {
         $ordering = array();
-        $orderParams = explode(',', element('order', $params, 'id'));
+        $orderParams = explode(',', element('order', $params, $default));
 
         foreach ($orderParams as $orderParam)
             $ordering[ltrim($orderParam, '-')] = (substr($orderParam, 0, 1) == '-') ? 'DESC' : 'ASC';
