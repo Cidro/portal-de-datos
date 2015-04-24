@@ -443,6 +443,7 @@ class Servicio
         $result['codigo'] = $this->codigo;
         $result['nombre'] = $this->nombre;
         $result['sigla'] = $this->sigla;
+        $result['url'] = $this->url;
         $result['publicado'] = $this->publicado;
         $result['servicio_padre'] = array(
             'codigo' => $this->getEntidad()->getCodigo(),
