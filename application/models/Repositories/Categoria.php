@@ -20,6 +20,7 @@ class Categoria extends EntityRepository{
 
         return $query->getResult();
     }
+
     public function getTodasCategorias(){
         $sql = "SELECT c FROM Entities\Categoria c";
 
@@ -62,5 +63,18 @@ class Categoria extends EntityRepository{
         $query = $qb->getQuery();
 
         return $query->getResult();
+    }
+
+    /**
+     * Obtiene el total de categorias encontradas por los filtros dados
+     * @return int
+     */
+    public function getTotal(){
+        $qb = $this->_em->createQueryBuilder();
+
+        $qb->select('count(c.id)')
+            ->from('Entities\Categoria', 'c');
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 }
