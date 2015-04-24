@@ -3,6 +3,10 @@ require(APPPATH . 'libraries/API_REST_Controller.php');
 
 class Datasets extends API_REST_Controller {
 
+    /**
+     * Crea un nuevo dataset en el catalogo
+     * @param int $id
+     */
     public function index_post($id = null) {
         /** @var \Repositories\Dataset $datasets */
         /** @var \Repositories\Servicio $servicios */
@@ -66,6 +70,10 @@ class Datasets extends API_REST_Controller {
         }
     }
 
+    /**
+     * Obtiene un dataset desde el catalogo
+     * @param int $id
+     */
     public function find_get($id = null){
         /** @var Repositories\Dataset $datasets */
         /** @var \Entities\Dataset $dataset */
@@ -82,7 +90,7 @@ class Datasets extends API_REST_Controller {
                     'errors' => true,
                     'messages' => array('No se ha encontrado el dataset')
                 )
-            ));
+            ), 404);
         } else {
             $this->response(array(
                 'meta' => array(
@@ -94,7 +102,10 @@ class Datasets extends API_REST_Controller {
         }
     }
 
-    public function index_get($id = null){
+    /**
+     * Obtiene un listado de datasets
+     */
+    public function index_get(){
         $params = $this->get();
         $availableFilters = array(
             'servicio_codigo'
@@ -110,8 +121,8 @@ class Datasets extends API_REST_Controller {
         $filters = array_merge($this->getFilters($availableFilters, $params), $forcedFilters);
 
         $limit = intval(element('limit', $params, 10));
-        $offset = intval(element('per_page', $params, 0));
-        $total = intval($datasets->findWithOrdering(array_merge($filters, array('total' => true)), $ordering, 10));
+        $offset = intval(element('offset', $params, 0));
+        $total = intval($datasets->findWithOrdering(array_merge($filters, array('total' => true)), $ordering));
 
         $listaDatasets = $datasets->findWithOrdering($filters, $ordering, 10);
 
@@ -125,7 +136,7 @@ class Datasets extends API_REST_Controller {
                 'errors' => false,
                 'messages' => null,
                 'total' => $total,
-                'per_page' => $offset,
+                'offset' => $offset,
                 'limit' => $limit
             ),
             'items' => $listaDatasets
