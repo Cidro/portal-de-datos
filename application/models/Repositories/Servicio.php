@@ -70,11 +70,11 @@ class Servicio extends EntityRepository{
         $qb->from('Entities\Servicio', 's')
             ->leftJoin('s.dataset', 'd', 'WITH', 'd.maestro = 1');
 
-        if($options['nombre_servicio'])
+        if(isset($options['nombre_servicio']) && $options['nombre_servicio'])
             $qb->andWhere('s.nombre like :nombre_servicio')
                 ->setParameter('nombre_servicio', '%'.$options['nombre_servicio'].'%');
 
-        if($options['entidad_codigo'])
+        if(isset($options['entidad_codigo']) && $options['entidad_codigo'])
             $qb->andWhere('s.entidad_codigo = :entidad_codigo')
                 ->setParameter('entidad_codigo', $options['entidad_codigo']);
 
@@ -156,5 +156,21 @@ class Servicio extends EntityRepository{
         $servicio->setServicioOficial($servicio_oficial);
 
         return $servicio;
+    }
+
+    public function getTotal($options = array()){
+        $qb = $this->_em->createQueryBuilder();
+
+        $qb->select('count(s.codigo)')
+            ->from('Entities\Servicio', 's');
+
+        foreach($options as $field => $value){
+            if(is_null($value))
+                $qb->andWhere('s.'.$field . ' IS NULL');
+            else
+                $qb->andWhere('s.'.$field . ' = :' . $field)
+                    ->setParameter($field, $value);
+        }
+        return $qb->getQuery()->getSingleScalarResult();
     }
 }
