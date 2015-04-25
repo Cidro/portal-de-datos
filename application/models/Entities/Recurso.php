@@ -69,11 +69,11 @@ class Recurso
         $this->descargas = new \Doctrine\Common\Collections\ArrayCollection();
         $this->vistasJunar = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -95,7 +95,7 @@ class Recurso
     /**
      * Get codigo
      *
-     * @return integer 
+     * @return integer
      */
     public function getCodigo()
     {
@@ -117,7 +117,7 @@ class Recurso
     /**
      * Get descripcion
      *
-     * @return text 
+     * @return text
      */
     public function getDescripcion()
     {
@@ -143,7 +143,7 @@ class Recurso
     /**
      * Get url
      *
-     * @return string 
+     * @return string
      */
     public function getUrl()
     {
@@ -165,7 +165,7 @@ class Recurso
     /**
      * Get mime
      *
-     * @return string 
+     * @return string
      */
     public function getMime()
     {
@@ -187,7 +187,7 @@ class Recurso
     /**
      * Get size
      *
-     * @return integer 
+     * @return integer
      */
     public function getSize()
     {
@@ -209,7 +209,7 @@ class Recurso
     /**
      * Get created_at
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getCreatedAt()
     {
@@ -231,7 +231,7 @@ class Recurso
     /**
      * Get updated_at
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getUpdatedAt()
     {
@@ -253,7 +253,7 @@ class Recurso
     /**
      * Get descargas
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getDescargas()
     {
@@ -275,7 +275,7 @@ class Recurso
     /**
      * Get dataset
      *
-     * @return Entities\Dataset 
+     * @return \Entities\Dataset
      */
     public function getDataset()
     {
@@ -308,11 +308,25 @@ class Recurso
     /**
      * Get vistasJunar
      *
+     * Por error de diseño, las vistas de Junar sólo quedan asociadas a recursos de datasets maestros
+     *
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getVistasJunar()
     {
-        return $this->vistasJunar;
+        //Se debe obtener primero el recurso asociado al dataset maestro
+        if($this->getDataset()->esMaestro())
+            return $this->vistasJunar;
+        else {
+            $codigo = $this->getCodigo();
+            return $this->getDataset()
+                ->getDatasetMaestro()
+                ->getRecursos()
+                ->filter(function(Recurso $recurso) use ($codigo) {
+                    return $recurso->getCodigo() == $codigo;
+                })
+                ->first()->getVistasJunar();
+        }
     }
 
     /**
@@ -385,5 +399,18 @@ class Recurso
 
             return $errores;
         }
+
+    public function toArray(){
+        $result['id'] = $this->id;
+        $result['dataset_id'] = $this->getDataset()->getDatasetMaestro()->getId();
+        $result['url'] = $this->url;
+        $result['descripcion'] = $this->descripcion;
+        $result['mime'] = $this->mime;
+        foreach($this->getVistasJunar() as $vistaJunar){
+            /** @var VistaJunar $vistaJunar */
+            $result['vistas_junar'][] = $vistaJunar->toArray();
+        }
+        return $result;
+    }
 
 }

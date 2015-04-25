@@ -57,7 +57,7 @@ class Datasets extends API_REST_Controller {
                     'error' => false,
                     'messages' => array('El datasets se ha '. $message .' correctamente.'),
                 ),
-                'item' => $dataset->toArray()
+                'item' => $dataset->toArray(true)
             ));
         }else{
             $this->response(array(
@@ -97,7 +97,7 @@ class Datasets extends API_REST_Controller {
                     'errors' => false,
                     'messages' => null
                 ),
-                'item' => $dataset->toArray()
+                'item' => $dataset->toArray(true)
             ));
         }
     }
@@ -117,7 +117,7 @@ class Datasets extends API_REST_Controller {
         /** @var Repositories\Dataset $datasets */
         $datasets = $this->doctrine->em->getRepository('Entities\Dataset');
 
-        $ordering = $this->getOrdering($params);
+        $ordering = $this->getOrdering($params, 'maestro_id');
         $filters = array_merge($this->getFilters($availableFilters, $params), $forcedFilters);
 
         $limit = intval(element('limit', $params, 10));
@@ -128,7 +128,7 @@ class Datasets extends API_REST_Controller {
 
         foreach ($listaDatasets as &$dataset) {
             /** @var \Entities\Dataset $dataset */
-            $dataset = $dataset->toArray();
+            $dataset = $dataset->toArray(true);
         }
 
         $this->response(array(

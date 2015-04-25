@@ -2,6 +2,7 @@
 
 namespace Entities;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -397,6 +398,15 @@ class Dataset
     }
 
     /**
+     * Alias del método getMaestro
+     *
+     * @return boolean
+     */
+    public function esMaestro(){
+        return $this->getMaestro();
+    }
+
+    /**
      * Set publicado
      *
      * @param boolean $publicado
@@ -711,7 +721,7 @@ class Dataset
     /**
      * Get recursos
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Collection[Recurso]
      */
     public function getRecursos()
     {
@@ -821,7 +831,7 @@ class Dataset
     /**
      * Get datasetMaestro
      *
-     * @return Entities\Dataset 
+     * @return \Entities\Dataset
      */
     public function getDatasetMaestro()
     {
@@ -1338,9 +1348,9 @@ class Dataset
             return count($this->categorias) ? $this->categorias[0]->getNombre() : '';
         }
 
-        public function toArray()
+        public function toArray($idMaestro = false)
         {
-            $result['id'] = $this->id;
+            $result['id'] = $idMaestro ? $this->maestro_id : $this->id;
             $result['titulo'] = $this->getTitulo();
             $result['descripcion'] = $this->getDescripcion();
             if($this->getLicencia()){
@@ -1368,8 +1378,7 @@ class Dataset
             }
 
             foreach ($this->getRecursos() as $key => $recurso) {
-                $result['recursos'][$key]['id'] = $recurso->getId();
-                $result['recursos'][$key]['url'] = $recurso->getUrl();
+                $result['recursos'][$key] = $recurso->toArray();
             }
 
             foreach ($this->getTags() as $key => $tag) {

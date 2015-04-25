@@ -351,4 +351,17 @@ class VistaJunar
 
         return $errores;
     }
+
+    public function toArray(){
+        return array(
+            'guid' => $this->getJunarGuid(),
+            'title' => $this->getTitle(),
+            'description' => $this->getDescription(),
+            'category' => $this->getCategory(),
+            'tags' => $this->getTags(),
+            'source' => $this->getSource(),
+            'meta_data' => $this->getMetaData(),
+            'table_id' => $this->getTableId()
+        );
+    }
 }
