@@ -37,7 +37,7 @@ class Vistajunar extends API_REST_Controller {
             $vistaJunar->setCategory(trim(element('category', $data, null)));
         if(trim(element('source', $data, null)))
             $vistaJunar->setSource(trim(element('source', $data, null)));
-        if(trim(element('table_id', $data, 0)))
+        if(!is_null(trim(element('table_id', $data, null))))
             $vistaJunar->setTableId(trim(element('table_id', $data, 0)));
         if(trim(element('tags', $data, '')))
             $vistaJunar->setTags(trim(element('tags', $data, '')));
