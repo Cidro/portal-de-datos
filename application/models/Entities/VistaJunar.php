@@ -344,8 +344,8 @@ class VistaJunar
             $errores[] = 'Debe seleccionar una categoría para la vista.';
         if(!$this->getSource())
             $errores[] = 'La vista debe tener una fuente asociada.';
-        if(!$this->getMetaData())
-            $errores[] = 'La vista debe estar asociada a un dataset.';
+        if(!$this->getRecurso())
+            $errores[] = 'La vista debe estar asociada a un recurso.';
         if(!is_numeric($this->getTableId()))
             $errores[] = 'Debe especificar la hoja de la cual se obtendrán los datos para la vista.';
 
