@@ -18,10 +18,17 @@ class Recursos extends API_REST_Controller {
             $recurso = $recursos->find($id);
         }
 
-        $recurso->setDescripcion(trim(element('descripcion', $data, null)));
-        $recurso->setUrl(trim(element('url', $data, null)));
-        $recurso->setMime(trim(element('mime', $data, null)));
-        $recurso->setSize(trim(element('size', $data, null)));
+        if(trim(element('descripcion', $data, null)))
+            $recurso->setDescripcion(trim(element('descripcion', $data, null)));
+
+        if(trim(element('url', $data, null)))
+            $recurso->setUrl(trim(element('url', $data, null)));
+
+        if(trim(element('mime', $data, null)))
+            $recurso->setMime(trim(element('mime', $data, null)));
+
+        if(trim(element('size', $data, null)))
+            $recurso->setSize(trim(element('size', $data, null)));
 
         $result = $recursos->grabaRecurso($recurso);
         if(!is_array($result)){
