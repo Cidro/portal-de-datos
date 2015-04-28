@@ -87,6 +87,43 @@ class Recurso extends EntityRepository
         return $recurso;
     }
 
+    /**
+     * Graba un recurso y genera la nueva version del dataset
+     * @param \Entities\Recurso $recurso
+     * @return \Entities\Recurso | array
+     */
+    public function grabaRecurso(\Entities\Recurso $recurso){
+
+        $esNuevo = is_null($recurso->getId());
+
+        //Se debe obtener la metadata del recurso
+        if($recurso->getMime() == '' || $recurso->getSize() == '')
+            $recurso->fetchMetadata();
+
+        if($esNuevo) {
+            $recurso->setCodigo($this->getMaxCodigo() + 1);
+            $recurso->setCreatedAt(new \DateTime());
+            $recurso->setUpdatedAt(new \DateTime());
+        } else {
+            $recurso->setUpdatedAt(new \DateTime());
+        }
+
+        $errors = $recurso->validate();
+
+        if(empty($errors)){
+            $this->_em->persist($recurso);
+            $this->_em->flush();
+
+            //Genera una nueva version del dataset con el nuevo recurso
+            $nuevaVersion = $recurso->getDataset()->generaVersion(false);
+            $nuevaVersion->createLog('<p>Modificación en <strong>Recursos</strong>:</p><ul><li>Recurso id:['.$recurso->getId().'] ' . ($esNuevo ? 'creado' : 'actualizado' ) . '</li></ul>');
+
+            return $recurso;
+        } else {
+            return $errors;
+        }
+    }
+
     public function getRecursosPublicados(){
         $qb = $this->_em->createQueryBuilder();
 

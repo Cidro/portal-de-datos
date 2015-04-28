@@ -39,7 +39,11 @@
 */
 $route['backend'] = "backend/backend";
 $route['api/v1/(:any)'] = "api/$1";
-$route['api/v2/datasets/(:num)'] = "api/v2/datasets/find/$1";
+
+//Debido a que codeigniter no permite diferenciar el metodo, se debe utilizar un nombre en comun para varios endpoints
+$route['api/v2/datasets/(:num)'] = "api/v2/datasets/update/$1";
+$route['api/v2/recursos/(:num)'] = "api/v2/recursos/update/$1";
+$route['api/v2/vistajunar/(:num)'] = "api/v2/vistajunar/update/$1";
 
 $route['default_controller'] = "page";
 $route['404_override'] = "";

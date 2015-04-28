@@ -11,42 +11,54 @@ class Datasets extends API_REST_Controller {
         /** @var \Repositories\Dataset $datasets */
         /** @var \Repositories\Servicio $servicios */
         /** @var \Doctrine\ORM\EntityRepository $licencias */
-        /** @var \Repositories\Categoria $categorias */
+        /** @var \Repositories\Categoria $repoCategorias */
         $datasets = $this->doctrine->em->getRepository('Entities\Dataset');
         $servicios = $this->doctrine->em->getRepository('Entities\Servicio');
         $licencias = $this->doctrine->em->getRepository('Entities\Licencia');
-        $categorias = $this->doctrine->em->getRepository('Entities\Categoria');
+        $repoCategorias = $this->doctrine->em->getRepository('Entities\Categoria');
 
         $data = $this->post();
 
-        if(!element('id', $data)){
+        if(is_null($id)){
             $dataset = new Entities\Dataset();
             $dataset->setMaestro(true);
             $dataset->setPublicado(false);
         } else {
+            /** @var \Entities\Dataset $dataset */
             $dataset = $datasets->find($id);
         }
 
         $servicio = $servicios->findOneBy(array(
-            'codigo' => element('servicio', $data, null)
+            'codigo' => trim(element('servicio', $data, null))
         ));
 
         $licencia = $licencias->findOneBy(array(
             'id' => 1
         ));
 
-        $categoria = $categorias->findOneBy(array(
-            'id' => element('categoria', $data, null)
+        $categorias = $repoCategorias->findBy(array(
+            'id' => explode(',', trim(element('categoria', $data, '')))
         ));
 
-        $dataset->setTitulo(element('titulo', $data, ''));
-        $dataset->setDescripcion(element('descripcion', $data, ''));
-        $dataset->setServicio($servicio);
-        $dataset->setLicencia($licencia);
-        if(!is_null($categoria))
+        if(trim(element('titulo', $data, '')))
+            $dataset->setTitulo(trim(element('titulo', $data, '')));
+
+        if(trim(element('descripcion', $data, '')))
+            $dataset->setDescripcion(trim(element('descripcion', $data, '')));
+
+        if(!is_null($servicio))
+            $dataset->setServicio($servicio);
+        if(!is_null($licencia))
+            $dataset->setLicencia($licencia);
+
+        foreach($categorias as $categoria)
             $dataset->addCategoria($categoria);
 
         $errors = $dataset->validate();
+
+        //Solo se deben actualizar datasets maestros
+        if(!$dataset->esMaestro())
+            $errors[] = 'Dataset inválido para actualización';
 
         if(empty($errors)){
             $dataset = $datasets->grabaDataset($dataset);
@@ -55,7 +67,7 @@ class Datasets extends API_REST_Controller {
             $this->response(array(
                 'meta' => array(
                     'error' => false,
-                    'messages' => array('El datasets se ha '. $message .' correctamente.'),
+                    'messages' => array('El dataset se ha '. $message .' correctamente.'),
                 ),
                 'item' => $dataset->toArray(true)
             ));
@@ -71,10 +83,18 @@ class Datasets extends API_REST_Controller {
     }
 
     /**
+     * Actualiza un dataset del catalogo
+     * @param int $id
+     */
+    public function update_post($id = null){
+        $this->index_post($id);
+    }
+
+    /**
      * Obtiene un dataset desde el catalogo
      * @param int $id
      */
-    public function find_get($id = null){
+    public function update_get($id = null){
         /** @var Repositories\Dataset $datasets */
         /** @var \Entities\Dataset $dataset */
         $datasets = $this->doctrine->em->getRepository('Entities\Dataset');

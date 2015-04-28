@@ -163,4 +163,11 @@ class Licencia
     {
         return $this->dataset;
     }
+
+    public function toArray(){
+        return [
+            'id' => $this->getId(),
+            'nombre' => $this->getNombre()
+        ];
+    }
 }

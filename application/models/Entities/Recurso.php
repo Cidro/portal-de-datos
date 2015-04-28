@@ -402,7 +402,12 @@ class Recurso
 
     public function toArray(){
         $result['id'] = $this->id;
-        $result['dataset_id'] = $this->getDataset()->getDatasetMaestro()->getId();
+
+        if($this->getDataset()->esMaestro())
+            $result['dataset_id'] = $this->getDataset()->getId();
+        else
+            $result['dataset_id'] = $this->getDataset()->getDatasetMaestro()->getId();
+
         $result['url'] = $this->url;
         $result['descripcion'] = $this->descripcion;
         $result['mime'] = $this->mime;

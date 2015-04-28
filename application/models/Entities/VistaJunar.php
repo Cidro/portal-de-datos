@@ -360,6 +360,7 @@ class VistaJunar
             'category' => $this->getCategory(),
             'tags' => $this->getTags(),
             'source' => $this->getSource(),
+            'recurso_id' => $this->getRecurso()->getId(),
             'meta_data' => $this->getMetaData(),
             'table_id' => $this->getTableId()
         );

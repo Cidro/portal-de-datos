@@ -2,6 +2,10 @@
 require(APPPATH . 'libraries/REST_Controller.php');
 
 class API_REST_Controller extends REST_Controller {
+    /**
+     * @var Doctrine
+     */
+    public $doctrine;
     function __construct() {
         parent::__construct();
         $this->load->helper('array');

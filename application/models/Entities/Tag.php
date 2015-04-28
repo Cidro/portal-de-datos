@@ -136,4 +136,11 @@ class Tag
     {
         return $this->datasets;
     }
+
+    public function toArray(){
+        return [
+            'id' => $this->getId(),
+            'nombre' => $this->getNombre()
+        ];
+    }
 }

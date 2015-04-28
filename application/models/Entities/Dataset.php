@@ -787,7 +787,7 @@ class Dataset
     /**
      * Get servicio
      *
-     * @return Entities\Servicio 
+     * @return \Entities\Servicio
      */
     public function getServicio()
     {
@@ -809,7 +809,7 @@ class Dataset
     /**
      * Get licencia
      *
-     * @return Entities\Licencia 
+     * @return \Entities\Licencia
      */
     public function getLicencia()
     {
@@ -875,7 +875,7 @@ class Dataset
     /**
      * Get tags
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Collection[Tag]
      */
     public function getTags()
     {
@@ -897,7 +897,7 @@ class Dataset
     /**
      * Get categorias
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Collection[Categoria]
      */
     public function getCategorias()
     {
@@ -1350,31 +1350,25 @@ class Dataset
 
         public function toArray($idMaestro = false)
         {
-            $result['id'] = $idMaestro ? $this->maestro_id : $this->id;
+            $result['id'] = ($idMaestro && !$this->esMaestro()) ? $this->maestro_id : $this->id;
             $result['titulo'] = $this->getTitulo();
             $result['descripcion'] = $this->getDescripcion();
+
             if($this->getLicencia()){
-                $result['licencia'] = array(
-                    'id' => $this->getLicencia()->getId(),
-                    'nombre' => $this->getLicencia()->getNombre()
-                );
+                $result['licencia'] = $this->getLicencia()->toArray();
             } else {
                 $result['licencia'] = array();
             }
 
-            if(isset($result['servicio']) && $result['servicio']){
-                $result['servicio'] = array(
-                    'codigo' => $this->getServicio()->getCodigo(),
-                    'nombre' => $this->getServicio()->getNombre()
-                );
+            if($this->getServicio()){
+                $result['servicio'] = $this->getServicio()->toArray();
             } else {
                 $result['servicio'] = array();
             }
-            $result['categorias'] = array();
 
+            $result['categorias'] = array();
             foreach($this->getCategorias() as $key => $categoria){
-                $result['categorias'][$key]['id'] = $categoria->getId();
-                $result['categorias'][$key]['nombre'] = $categoria->getNombre();
+                $result['categorias'][$key] = $categoria->toArray();
             }
 
             foreach ($this->getRecursos() as $key => $recurso) {
