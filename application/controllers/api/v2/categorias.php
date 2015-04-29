@@ -15,7 +15,7 @@ class Categorias extends API_REST_Controller {
         $categorias = $this->doctrine->em->getRepository('Entities\Categoria');
 
         $limit = intval(element('limit', $params, 10));
-        $offset = intval(element('offset', $params, 0));
+        $offset = intval(element('offset', $params, 0)) * $limit;
         $ordering = $this->getOrdering($params);
 
         $total = $categorias->getTotal();

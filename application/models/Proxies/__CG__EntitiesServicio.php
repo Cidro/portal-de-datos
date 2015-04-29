@@ -231,6 +231,12 @@ class Servicio extends \Entities\Servicio implements \Doctrine\ORM\Proxy\Proxy
         return parent::validate();
     }
 
+    public function toArray()
+    {
+        $this->__load();
+        return parent::toArray();
+    }
+
 
     public function __sleep()
     {

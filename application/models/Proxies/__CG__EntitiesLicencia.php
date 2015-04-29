@@ -111,6 +111,12 @@ class Licencia extends \Entities\Licencia implements \Doctrine\ORM\Proxy\Proxy
         return parent::getDataset();
     }
 
+    public function toArray()
+    {
+        $this->__load();
+        return parent::toArray();
+    }
+
 
     public function __sleep()
     {

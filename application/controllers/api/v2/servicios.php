@@ -26,7 +26,7 @@ class Servicios extends API_REST_Controller {
         );
 
         $limit = intval(element('limit', $params, 10));
-        $offset = intval(element('offset', $params, 0));
+        $offset = intval(element('offset', $params, 0)) * $limit;
         $ordering = $this->getOrdering($params, 'codigo');
         $filters = array_merge($this->getFilters($availableFilters, $params), $forcedFilters);
 

@@ -147,6 +147,12 @@ class Dataset extends \Entities\Dataset implements \Doctrine\ORM\Proxy\Proxy
         return parent::getMaestro();
     }
 
+    public function esMaestro()
+    {
+        $this->__load();
+        return parent::esMaestro();
+    }
+
     public function setPublicado($publicado)
     {
         $this->__load();
@@ -589,10 +595,10 @@ class Dataset extends \Entities\Dataset implements \Doctrine\ORM\Proxy\Proxy
         return parent::getNombrePrimeraCategoria();
     }
 
-    public function toArray()
+    public function toArray($idMaestro = false)
     {
         $this->__load();
-        return parent::toArray();
+        return parent::toArray($idMaestro);
     }
 
 

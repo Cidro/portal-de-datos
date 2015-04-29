@@ -35,4 +35,3 @@ set_time_limit(0);
 require_once('index.php');
  
 /* End of file test.php */
- ?>

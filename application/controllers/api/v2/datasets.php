@@ -141,10 +141,10 @@ class Datasets extends API_REST_Controller {
         $filters = array_merge($this->getFilters($availableFilters, $params), $forcedFilters);
 
         $limit = intval(element('limit', $params, 10));
-        $offset = intval(element('offset', $params, 0));
+        $offset = intval(element('offset', $params, 0)) * $limit;
         $total = intval($datasets->findWithOrdering(array_merge($filters, array('total' => true)), $ordering));
 
-        $listaDatasets = $datasets->findWithOrdering($filters, $ordering, 10);
+        $listaDatasets = $datasets->findWithOrdering($filters, $ordering, $limit, $offset);
 
         foreach ($listaDatasets as &$dataset) {
             /** @var \Entities\Dataset $dataset */
