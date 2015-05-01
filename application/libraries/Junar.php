@@ -36,6 +36,15 @@ class Junar {
         return new Resource($this->authkey, $this->baseUri);
     }
 
+    /**
+     * Obtiene un listado de cambios desde Junar
+     * @param DateTime $ultimaActualizacion
+     * @return array
+     */
+    public function ultimosCambios($ultimaActualizacion){
+        return [];
+    }
+
 }
 
 class DataStream {
