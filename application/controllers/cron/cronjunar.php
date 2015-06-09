@@ -141,8 +141,8 @@ class Cronjunar extends CI_Controller {
      */
     protected function getDatasetId($dataset){
         $dataset_id = null;
-        $url = $dataset['meta'];
-        $parsedUrl = parse_url($dataset['meta']);
+        $url = $dataset['dataset'];
+        $parsedUrl = parse_url($dataset['dataset']);
         if(isset($parsedUrl['path'])){
             $segments = explode('/', $parsedUrl['path']);
             $dataset_id = array_pop($segments);
