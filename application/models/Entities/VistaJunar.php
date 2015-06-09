@@ -55,6 +55,11 @@ class VistaJunar
     private $table_id;
 
     /**
+     * @var string
+     */
+    private $type;
+
+    /**
      * @var \DateTime
      */
     private $created_at;
@@ -321,6 +326,16 @@ class VistaJunar
         $this->recurso = $recurso;
     
         return $this;
+    }
+
+    public function setType($type){
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getType(){
+        return $this->type;
     }
 
     /**

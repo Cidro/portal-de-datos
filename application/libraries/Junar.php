@@ -37,12 +37,35 @@ class Junar {
     }
 
     /**
-     * Obtiene un listado de cambios desde Junar
-     * @param DateTime $ultimaActualizacion
-     * @return array
+     * @return SimpleXMLElement
      */
-    public function ultimosCambios($ultimaActualizacion){
-        return [];
+    public function ultimoCatalogo(){
+        $fileName = 'catalog.xml';
+        if(file_exists($fileName)){
+            $response = file_get_contents($fileName);
+        } else {
+            $ch = curl_init();
+
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //Set curl to return the data instead of printing it to the browser.
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_URL, $this->baseUri . $fileName);
+
+            $response = curl_exec($ch);
+            file_put_contents($fileName, $response);
+            curl_close($ch);
+        }
+
+        $xmlResponse = new SimpleXMLElement($response);
+        $xmlResponse->registerXPathNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
+        $xmlResponse->registerXPathNamespace('foaf', 'http://xmlns.com/foaf/0.1/');
+        $xmlResponse->registerXPathNamespace('owl', 'http://www.w3.org/2002/07/owl#');
+        $xmlResponse->registerXPathNamespace('rdfs', 'http://www.w3.org/2000/01/rdf-schema#');
+        $xmlResponse->registerXPathNamespace('dcat', 'http://www.w3.org/ns/dcat#');
+        $xmlResponse->registerXPathNamespace('ods', 'http://open-data-standards.github.com/2012/01/open-data-standards#');
+        $xmlResponse->registerXPathNamespace('dct', 'http://purl.org/dc/terms/');
+
+        return $xmlResponse;
     }
 
 }
@@ -131,13 +154,13 @@ class DataStream {
     public function __callURI($url) {
     		$ch = curl_init();
 			 
-				curl_setopt($ch, CURLOPT_HEADER, 0);
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //Set curl to return the data instead of printing it to the browser.
-				curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-				curl_setopt($ch, CURLOPT_URL, $this->baseUri . $url);
-			 
-				$response = curl_exec($ch);
-				curl_close($ch);
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //Set curl to return the data instead of printing it to the browser.
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_URL, $this->baseUri . $url);
+
+            $response = curl_exec($ch);
+            curl_close($ch);
 
         // parsing the content
         if (in_array($this->output, array('', 'prettyjson', 'json_array'))) {
@@ -235,5 +258,3 @@ class Resource {
     }
 
 }
-
-?>

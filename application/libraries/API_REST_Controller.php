@@ -6,9 +6,23 @@ class API_REST_Controller extends REST_Controller {
      * @var Doctrine
      */
     public $doctrine;
+
+    /**
+     * @var \Repositories\User
+     */
+    protected $users;
+
+    /**
+     * @var \Entities\User
+     */
+    protected $user;
+
     function __construct() {
         parent::__construct();
         $this->load->helper('array');
+
+        $this->users = $this->doctrine->em->getRepository('Entities\User');
+        $this->user = $this->users->findBy(['api_token' => $this->rest->key]);
     }
 
     /**

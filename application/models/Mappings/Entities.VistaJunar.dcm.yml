@@ -24,6 +24,9 @@ Entities\VistaJunar:
       type: string
     table_id:
       type: integer
+    type:
+      type: string
+      columnDefinition: ENUM('conjuntos','vistas','visualizaciones','colecciones')
     created_at:
       type: datetime
     updated_at:
