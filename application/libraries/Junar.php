@@ -9,9 +9,10 @@ class Junar {
     private $baseUri = '';
 
     public function __construct() {
-    		$CI = &get_instance();
+    	$CI = &get_instance();
         $this->authkey = $CI->config->item('junar_authkey');
         $this->baseUri = $CI->config->item('junar_baseuri');
+        $this->dev_file_cache = $CI->config->item('junar_development_file_cache');
     }
 
     public function datastream($guid = '') {
@@ -41,7 +42,7 @@ class Junar {
      */
     public function ultimoCatalogo(){
         $fileName = 'catalog.xml';
-        if(file_exists($fileName)){
+        if($this->dev_file_cache && file_exists($fileName)){
             $response = file_get_contents($fileName);
         } else {
             $ch = curl_init();
