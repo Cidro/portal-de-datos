@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Entities\Dataset
  */
-class Dataset
-{
+class Dataset {
     /**
      * @var integer $id
      */
@@ -111,7 +110,7 @@ class Dataset
     private $primera_version_publicada;
 
     /**
-     * @var Entities\Dataset
+     * @var \Entities\Dataset
      */
     private $primeraVersionPublicada;
 
@@ -146,17 +145,17 @@ class Dataset
     private $evaluaciones;
 
     /**
-     * @var Entities\Servicio
+     * @var \Entities\Servicio
      */
     private $servicio;
 
     /**
-     * @var Entities\Licencia
+     * @var \Entities\Licencia
      */
     private $licencia;
 
     /**
-     * @var Entities\Dataset
+     * @var \Entities\Dataset
      */
     private $datasetMaestro;
 
@@ -195,8 +194,7 @@ class Dataset
      */
     private $doc_id;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->datasetVersion = new \Doctrine\Common\Collections\ArrayCollection();
         $this->logMaestro = new \Doctrine\Common\Collections\ArrayCollection();
         $this->logVersion = new \Doctrine\Common\Collections\ArrayCollection();
@@ -210,14 +208,13 @@ class Dataset
         $this->vistas = new \Doctrine\Common\Collections\ArrayCollection();
         $this->doc_id = '';
     }
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -227,8 +224,7 @@ class Dataset
      * @param string $titulo
      * @return Dataset
      */
-    public function setTitulo($titulo)
-    {
+    public function setTitulo($titulo) {
         $this->titulo = $titulo;
         return $this;
     }
@@ -236,10 +232,9 @@ class Dataset
     /**
      * Get titulo
      *
-     * @return string 
+     * @return string
      */
-    public function getTitulo()
-    {
+    public function getTitulo() {
         return $this->titulo;
     }
 
@@ -249,8 +244,7 @@ class Dataset
      * @param text $descripcion
      * @return Dataset
      */
-    public function setDescripcion($descripcion)
-    {
+    public function setDescripcion($descripcion) {
         $this->descripcion = $descripcion;
         return $this;
     }
@@ -258,10 +252,9 @@ class Dataset
     /**
      * Get descripcion
      *
-     * @return text 
+     * @return text
      */
-    public function getDescripcion()
-    {
+    public function getDescripcion() {
         return $this->descripcion;
     }
 
@@ -271,8 +264,7 @@ class Dataset
      * @param string $frecuencia
      * @return Dataset
      */
-    public function setFrecuencia($frecuencia)
-    {
+    public function setFrecuencia($frecuencia) {
         $this->frecuencia = $frecuencia;
         return $this;
     }
@@ -280,10 +272,9 @@ class Dataset
     /**
      * Get frecuencia
      *
-     * @return string 
+     * @return string
      */
-    public function getFrecuencia()
-    {
+    public function getFrecuencia() {
         return $this->frecuencia;
     }
 
@@ -293,8 +284,7 @@ class Dataset
      * @param string $granularidad
      * @return Dataset
      */
-    public function setGranularidad($granularidad)
-    {
+    public function setGranularidad($granularidad) {
         $this->granularidad = $granularidad;
         return $this;
     }
@@ -302,10 +292,9 @@ class Dataset
     /**
      * Get granularidad
      *
-     * @return string 
+     * @return string
      */
-    public function getGranularidad()
-    {
+    public function getGranularidad() {
         return $this->granularidad;
     }
 
@@ -315,8 +304,7 @@ class Dataset
      * @param string $coberturaTemporal
      * @return Dataset
      */
-    public function setCoberturaTemporal($coberturaTemporal)
-    {
+    public function setCoberturaTemporal($coberturaTemporal) {
         $this->cobertura_temporal = $coberturaTemporal;
         return $this;
     }
@@ -324,10 +312,9 @@ class Dataset
     /**
      * Get cobertura_temporal
      *
-     * @return string 
+     * @return string
      */
-    public function getCoberturaTemporal()
-    {
+    public function getCoberturaTemporal() {
         return $this->cobertura_temporal;
     }
 
@@ -337,8 +324,7 @@ class Dataset
      * @param integer $ndescargas
      * @return Dataset
      */
-    public function setNdescargas($ndescargas)
-    {
+    public function setNdescargas($ndescargas) {
         $this->ndescargas = $ndescargas;
         return $this;
     }
@@ -346,10 +332,9 @@ class Dataset
     /**
      * Get ndescargas
      *
-     * @return integer 
+     * @return integer
      */
-    public function getNdescargas()
-    {
+    public function getNdescargas() {
         return $this->ndescargas;
     }
 
@@ -359,8 +344,7 @@ class Dataset
      * @param float $rating
      * @return Dataset
      */
-    public function setRating($rating)
-    {
+    public function setRating($rating) {
         $this->rating = $rating;
         return $this;
     }
@@ -368,10 +352,9 @@ class Dataset
     /**
      * Get rating
      *
-     * @return float 
+     * @return float
      */
-    public function getRating()
-    {
+    public function getRating() {
         return $this->rating;
     }
 
@@ -381,8 +364,7 @@ class Dataset
      * @param boolean $maestro
      * @return Dataset
      */
-    public function setMaestro($maestro)
-    {
+    public function setMaestro($maestro) {
         $this->maestro = $maestro;
         return $this;
     }
@@ -390,10 +372,9 @@ class Dataset
     /**
      * Get maestro
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getMaestro()
-    {
+    public function getMaestro() {
         return $this->maestro;
     }
 
@@ -402,7 +383,7 @@ class Dataset
      *
      * @return boolean
      */
-    public function esMaestro(){
+    public function esMaestro() {
         return $this->getMaestro();
     }
 
@@ -412,8 +393,7 @@ class Dataset
      * @param boolean $publicado
      * @return Dataset
      */
-    public function setPublicado($publicado)
-    {
+    public function setPublicado($publicado) {
         $this->publicado = $publicado;
         return $this;
     }
@@ -421,10 +401,9 @@ class Dataset
     /**
      * Get publicado
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getPublicado()
-    {
+    public function getPublicado() {
         return $this->publicado;
     }
 
@@ -434,8 +413,7 @@ class Dataset
      * @param datetime $publicadoAt
      * @return Dataset
      */
-    public function setPublicadoAt($publicadoAt)
-    {
+    public function setPublicadoAt($publicadoAt) {
         $this->publicado_at = $publicadoAt;
         return $this;
     }
@@ -443,12 +421,10 @@ class Dataset
     /**
      * Get publicado_at
      *
-     * @return datetime 
+     * @return datetime
      */
-    public function getPublicadoAt()
-    {
-        if(gettype($this->publicado_at) != 'object')
-            $this->publicado_at = new \DateTime('2000-01-01 00:00:00');
+    public function getPublicadoAt() {
+        if (gettype($this->publicado_at) != 'object') $this->publicado_at = new \DateTime('2000-01-01 00:00:00');
         return $this->publicado_at;
     }
 
@@ -458,8 +434,7 @@ class Dataset
      * @param integer $hits
      * @return Dataset
      */
-    public function setHits($hits)
-    {
+    public function setHits($hits) {
         $this->hits = $hits;
         return $this;
     }
@@ -467,10 +442,9 @@ class Dataset
     /**
      * Get hits
      *
-     * @return integer 
+     * @return integer
      */
-    public function getHits()
-    {
+    public function getHits() {
         return $this->hits;
     }
 
@@ -480,8 +454,7 @@ class Dataset
      * @param datetime $createdAt
      * @return Dataset
      */
-    public function setCreatedAt($createdAt)
-    {
+    public function setCreatedAt($createdAt) {
         $this->created_at = $createdAt;
         return $this;
     }
@@ -489,10 +462,9 @@ class Dataset
     /**
      * Get created_at
      *
-     * @return datetime 
+     * @return datetime
      */
-    public function getCreatedAt()
-    {
+    public function getCreatedAt() {
         return $this->created_at;
     }
 
@@ -502,8 +474,7 @@ class Dataset
      * @param datetime $updatedAt
      * @return Dataset
      */
-    public function setUpdatedAt($updatedAt)
-    {
+    public function setUpdatedAt($updatedAt) {
         $this->updated_at = $updatedAt;
         return $this;
     }
@@ -511,12 +482,10 @@ class Dataset
     /**
      * Get updated_at
      *
-     * @return datetime 
+     * @return datetime
      */
-    public function getUpdatedAt()
-    {
-        if(gettype($this->updated_at) != 'object')
-            $this->updated_at = new \DateTime('2000-01-01 00:00:00');
+    public function getUpdatedAt() {
+        if (gettype($this->updated_at) != 'object') $this->updated_at = new \DateTime('2000-01-01 00:00:00');
         return $this->updated_at;
     }
 
@@ -526,8 +495,7 @@ class Dataset
      * @param integer $maestroId
      * @return Dataset
      */
-    public function setMaestroId($maestroId)
-    {
+    public function setMaestroId($maestroId) {
         $this->maestro_id = $maestroId;
         return $this;
     }
@@ -535,10 +503,9 @@ class Dataset
     /**
      * Get maestro_id
      *
-     * @return integer 
+     * @return integer
      */
-    public function getMaestroId()
-    {
+    public function getMaestroId() {
         return $this->maestro_id;
     }
 
@@ -548,8 +515,7 @@ class Dataset
      * @param string $servicioCodigo
      * @return Dataset
      */
-    public function setServicioCodigo($servicioCodigo)
-    {
+    public function setServicioCodigo($servicioCodigo) {
         $this->servicio_codigo = $servicioCodigo;
         return $this;
     }
@@ -557,10 +523,9 @@ class Dataset
     /**
      * Get servicio_codigo
      *
-     * @return string 
+     * @return string
      */
-    public function getServicioCodigo()
-    {
+    public function getServicioCodigo() {
         return $this->servicio_codigo;
     }
 
@@ -570,8 +535,7 @@ class Dataset
      * @param integer $licenciaId
      * @return Dataset
      */
-    public function setLicenciaId($licenciaId)
-    {
+    public function setLicenciaId($licenciaId) {
         $this->licencia_id = $licenciaId;
         return $this;
     }
@@ -579,10 +543,9 @@ class Dataset
     /**
      * Get licencia_id
      *
-     * @return integer 
+     * @return integer
      */
-    public function getLicenciaId()
-    {
+    public function getLicenciaId() {
         return $this->licencia_id;
     }
 
@@ -592,8 +555,7 @@ class Dataset
      * @param boolean $actualizable
      * @return Dataset
      */
-    public function setActualizable($actualizable)
-    {
+    public function setActualizable($actualizable) {
         $this->actualizable = $actualizable;
         return $this;
     }
@@ -601,10 +563,9 @@ class Dataset
     /**
      * Get actualizable
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function getActualizable()
-    {
+    public function getActualizable() {
         return $this->actualizable;
     }
 
@@ -614,8 +575,7 @@ class Dataset
      * @param datetime $integracion_junar
      * @return Dataset
      */
-    public function setIntegracionJunar($integracion_junar)
-    {
+    public function setIntegracionJunar($integracion_junar) {
         $this->integracion_junar = $integracion_junar;
         return $this;
     }
@@ -623,10 +583,9 @@ class Dataset
     /**
      * Get integracion_junar
      *
-     * @return datetime 
+     * @return datetime
      */
-    public function getIntegracionJunar()
-    {
+    public function getIntegracionJunar() {
         return $this->integracion_junar;
     }
 
@@ -636,8 +595,7 @@ class Dataset
      * @param integer $primeraVersionPublicada
      * @return Dataset
      */
-    public function setPrimeraVersionPublicada($primeraVersionPublicada)
-    {
+    public function setPrimeraVersionPublicada($primeraVersionPublicada) {
         $this->primeraVersionPublicada = $primeraVersionPublicada;
         return $this;
     }
@@ -645,21 +603,19 @@ class Dataset
     /**
      * Get primera_version_publicada
      *
-     * @return integer 
+     * @return integer
      */
-    public function getPrimeraVersionPublicada()
-    {
+    public function getPrimeraVersionPublicada() {
         return $this->primeraVersionPublicada;
     }
 
     /**
      * Add datasetVersion
      *
-     * @param Entities\Dataset $datasetVersion
+     * @param \Entities\Dataset $datasetVersion
      * @return Dataset
      */
-    public function addDataset(\Entities\Dataset $datasetVersion)
-    {
+    public function addDataset(\Entities\Dataset $datasetVersion) {
         $this->datasetVersion[] = $datasetVersion;
         return $this;
     }
@@ -667,21 +623,19 @@ class Dataset
     /**
      * Get datasetVersion
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getDatasetVersion()
-    {
+    public function getDatasetVersion() {
         return $this->datasetVersion;
     }
 
     /**
      * Add logMaestro
      *
-     * @param Entities\Log $logMaestro
+     * @param \Entities\Log $logMaestro
      * @return Dataset
      */
-    public function addLog(\Entities\Log $logMaestro)
-    {
+    public function addLog(\Entities\Log $logMaestro) {
         $this->logMaestro[] = $logMaestro;
         return $this;
     }
@@ -689,31 +643,28 @@ class Dataset
     /**
      * Get logMaestro
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getLogMaestro()
-    {
+    public function getLogMaestro() {
         return $this->logMaestro;
     }
 
     /**
      * Get logVersion
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getLogVersion()
-    {
+    public function getLogVersion() {
         return $this->logVersion;
     }
 
     /**
      * Add recursos
      *
-     * @param Entities\Recurso $recursos
+     * @param \Entities\Recurso $recursos
      * @return Dataset
      */
-    public function addRecurso(\Entities\Recurso $recursos)
-    {
+    public function addRecurso(\Entities\Recurso $recursos) {
         $this->recursos[] = $recursos;
         return $this;
     }
@@ -723,19 +674,17 @@ class Dataset
      *
      * @return Collection[Recurso]
      */
-    public function getRecursos()
-    {
+    public function getRecursos() {
         return $this->recursos;
     }
 
     /**
      * Add documentos
      *
-     * @param Entities\Documento $documentos
+     * @param \Entities\Documento $documentos
      * @return Dataset
      */
-    public function addDocumento(\Entities\Documento $documentos)
-    {
+    public function addDocumento(\Entities\Documento $documentos) {
         $this->documentos[] = $documentos;
         return $this;
     }
@@ -743,21 +692,19 @@ class Dataset
     /**
      * Get documentos
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getDocumentos()
-    {
+    public function getDocumentos() {
         return $this->documentos;
     }
 
     /**
      * Add evaluaciones
      *
-     * @param Entities\Evaluacion $evaluaciones
+     * @param \Entities\Evaluacion $evaluaciones
      * @return Dataset
      */
-    public function addEvaluacion(\Entities\Evaluacion $evaluaciones)
-    {
+    public function addEvaluacion(\Entities\Evaluacion $evaluaciones) {
         $this->evaluaciones[] = $evaluaciones;
         return $this;
     }
@@ -765,21 +712,19 @@ class Dataset
     /**
      * Get evaluaciones
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getEvaluaciones()
-    {
+    public function getEvaluaciones() {
         return $this->evaluaciones;
     }
 
     /**
      * Set servicio
      *
-     * @param Entities\Servicio $servicio
+     * @param \Entities\Servicio $servicio
      * @return Dataset
      */
-    public function setServicio(\Entities\Servicio $servicio = null)
-    {
+    public function setServicio(\Entities\Servicio $servicio = null) {
         $this->servicio = $servicio;
         return $this;
     }
@@ -789,19 +734,17 @@ class Dataset
      *
      * @return \Entities\Servicio
      */
-    public function getServicio()
-    {
+    public function getServicio() {
         return $this->servicio;
     }
 
     /**
      * Set licencia
      *
-     * @param Entities\Licencia $licencia
+     * @param \Entities\Licencia $licencia
      * @return Dataset
      */
-    public function setLicencia(\Entities\Licencia $licencia = null)
-    {
+    public function setLicencia(\Entities\Licencia $licencia = null) {
         $this->licencia = $licencia;
         return $this;
     }
@@ -811,19 +754,17 @@ class Dataset
      *
      * @return \Entities\Licencia
      */
-    public function getLicencia()
-    {
+    public function getLicencia() {
         return $this->licencia;
     }
 
     /**
      * Set datasetMaestro
      *
-     * @param Entities\Dataset $datasetMaestro
+     * @param \Entities\Dataset $datasetMaestro
      * @return Dataset
      */
-    public function setDatasetMaestro(\Entities\Dataset $datasetMaestro = null)
-    {
+    public function setDatasetMaestro(\Entities\Dataset $datasetMaestro = null) {
         $this->datasetMaestro = $datasetMaestro;
         return $this;
     }
@@ -833,19 +774,17 @@ class Dataset
      *
      * @return \Entities\Dataset
      */
-    public function getDatasetMaestro()
-    {
+    public function getDatasetMaestro() {
         return $this->datasetMaestro;
     }
 
     /**
      * Add sectores
      *
-     * @param Entities\Sector $sectores
+     * @param \Entities\Sector $sectores
      * @return Dataset
      */
-    public function addSector(\Entities\Sector $sectores)
-    {
+    public function addSector(\Entities\Sector $sectores) {
         $this->sectores[] = $sectores;
         return $this;
     }
@@ -853,21 +792,19 @@ class Dataset
     /**
      * Get sectores
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getSectores()
-    {
+    public function getSectores() {
         return $this->sectores;
     }
 
     /**
      * Add tags
      *
-     * @param Entities\Tag $tags
+     * @param \Entities\Tag $tags
      * @return Dataset
      */
-    public function addTag(\Entities\Tag $tags)
-    {
+    public function addTag(\Entities\Tag $tags) {
         $this->tags[] = $tags;
         return $this;
     }
@@ -877,19 +814,43 @@ class Dataset
      *
      * @return Collection[Tag]
      */
-    public function getTags()
-    {
+    public function getTags() {
         return $this->tags;
+    }
+
+    /**
+     * @param string $tagsCvs
+     * @return Dataset
+     */
+    public function setTagsByCsv($tagsCvs){
+        $CI = &get_instance();
+        $tagNames = array_map('trim', explode(',', $tagsCvs));
+        foreach ($tagNames as $tagName) {
+            /** @var \Entities\Tag $tag */
+            if (!empty($tagName)) {
+                $tag = $CI->doctrine->em->getRepository('Entities\Tag')->findOneByNombre($tagName);
+                if(!$tag){
+                    $tag = new \Entities\Tag;
+                    $tag->setNombre($tagName);
+                    $tag->setUpdatedAt(new \DateTime());
+                    $tag->setCreatedAt(new \DateTime());
+
+                    $CI->doctrine->em->persist($tag);
+                    $CI->doctrine->em->flush();
+                }
+                $this->addTag($tag);
+            }
+        }
+        return $this;
     }
 
     /**
      * Add categorias
      *
-     * @param Entities\Categoria $categorias
+     * @param \Entities\Categoria $categorias
      * @return Dataset
      */
-    public function addCategoria(\Entities\Categoria $categorias)
-    {
+    public function addCategoria(\Entities\Categoria $categorias) {
         $this->categorias[] = $categorias;
         return $this;
     }
@@ -899,19 +860,17 @@ class Dataset
      *
      * @return Collection[Categoria]
      */
-    public function getCategorias()
-    {
+    public function getCategorias() {
         return $this->categorias;
     }
 
     /**
      * Add reportes
      *
-     * @param Entities\Reporte $reportes
+     * @param \Entities\Reporte $reportes
      * @return Dataset
      */
-    public function addReporte(\Entities\Reporte $reportes)
-    {
+    public function addReporte(\Entities\Reporte $reportes) {
         $this->reportes[] = $reportes;
         return $this;
     }
@@ -919,21 +878,19 @@ class Dataset
     /**
      * Get reportes
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getReportes()
-    {
+    public function getReportes() {
         return $this->reportes;
     }
 
     /**
      * Add vistas
      *
-     * @param Entities\Vista $vistas
+     * @param \Entities\Vista $vistas
      * @return Dataset
      */
-    public function addVista(\Entities\Vista $vistas)
-    {
+    public function addVista(\Entities\Vista $vistas) {
         $this->vistas[] = $vistas;
         return $this;
     }
@@ -941,10 +898,9 @@ class Dataset
     /**
      * Get vistas
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getVistas()
-    {
+    public function getVistas() {
         return $this->vistas;
     }
 
@@ -954,8 +910,7 @@ class Dataset
      * @param string $coordenadas
      * @return Dataset
      */
-    public function setCoordenadas($coordenadas)
-    {
+    public function setCoordenadas($coordenadas) {
         $this->coordenadas = $coordenadas;
         return $this;
     }
@@ -965,8 +920,7 @@ class Dataset
      *
      * @return string
      */
-    public function getCoordenadas()
-    {
+    public function getCoordenadas() {
         return $this->coordenadas;
     }
 
@@ -976,8 +930,7 @@ class Dataset
      * @param string $doc_id
      * @return Dataset
      */
-    public function setDocId($doc_id)
-    {
+    public function setDocId($doc_id) {
         $this->doc_id = $doc_id;
         return $this;
     }
@@ -987,402 +940,380 @@ class Dataset
      *
      * @return string
      */
-    public function getDocId()
-    {
+    public function getDocId() {
         return $this->doc_id;
     }
 
     /**
-		 * Custom Methods
+     * Custom Methods
      */
 
-    public function validate(){
-    	$errors = array();
+    public function validate() {
+        $errors = array();
 
-			if(!$this->getTitulo())
-				$errors[] = 'Debe ingresar un título para el dataset.';
-			if(!$this->getDescripcion())
-				$errors[] = 'Debe ingresar una descripción para el dataset.';
-			if(!$this->getServicio())
-				$errors[] = 'Debe seleccionar una institución para el dataset.';
-			if(!$this->getLicencia())
-				$errors[] = 'Debe seleccionar una licencia para el dataset.';
-            if(count($this->getCategorias()) < 1)
-                $errors[] = 'Debe seleccionar a lo menos una categoría para el dataset.';
-			return $errors;
+        if (!$this->getTitulo()) $errors[] = 'Debe ingresar un título para el dataset.';
+        if (!$this->getDescripcion()) $errors[] = 'Debe ingresar una descripción para el dataset.';
+        if (!$this->getServicio()) $errors[] = 'Debe seleccionar una institución para el dataset.';
+        if (!$this->getLicencia()) $errors[] = 'Debe seleccionar una licencia para el dataset.';
+        if (count($this->getCategorias()) < 1) $errors[] = 'Debe seleccionar a lo menos una categoría para el dataset.';
+        return $errors;
     }
 
-    public function compareWith(\Entities\Dataset $version){
-    	$descripcion = '';
-			$propiedades = array( 'titulo', 'descripcion', 'frecuencia', 'granularidad', 'coberturaTemporal', 'ndescargas', 'rating' );
-			$entidades = array( 'servicio', 'licencia' );
-			$colecciones = array( 'sectores', 'tags', 'categorias' );
+    public function compareWith(\Entities\Dataset $version) {
+        $descripcion = '';
+        $propiedades = array('titulo', 'descripcion', 'frecuencia', 'granularidad', 'coberturaTemporal', 'ndescargas', 'rating');
+        $entidades = array('servicio', 'licencia');
+        $colecciones = array('sectores', 'tags', 'categorias');
 
-			//Se comparan las propiedades del objeto
-			foreach($propiedades as $propiedad){
-				$getter = 'get'.ucfirst($propiedad);
-				if($this->$getter() != $version->$getter()){
-					$changes[] = array( 'titulo' => $propiedad, 'valor' => $version->$getter() );
-				}
-			}
+        //Se comparan las propiedades del objeto
+        foreach ($propiedades as $propiedad) {
+            $getter = 'get' . ucfirst($propiedad);
+            if ($this->$getter() != $version->$getter()) {
+                $changes[] = array('titulo' => $propiedad, 'valor' => $version->$getter());
+            }
+        }
 
-			//Se comparan las entidades asociadas al objeto
-			foreach($entidades as $entidad){
-				$getter = 'get'.ucfirst($entidad);
-				if($this->$getter() != $version->$getter()){
-					$changes[] = array( 'titulo' => $entidad, 'valor' => $version->$getter()->getNombre() );
-				}
-			}
+        //Se comparan las entidades asociadas al objeto
+        foreach ($entidades as $entidad) {
+            $getter = 'get' . ucfirst($entidad);
+            if ($this->$getter() != $version->$getter()) {
+                $changes[] = array('titulo' => $entidad, 'valor' => $version->$getter()->getNombre());
+            }
+        }
 
-			//Se comparan las colecciones de entidades
-			foreach($colecciones as $coleccion){
-				$getter = 'get'.ucfirst($coleccion);
-				//Verifica las entidades eliminadas
-				foreach ($this->$getter() as $key => $cEntidad) {
-					if(!$version->$getter()->contains($cEntidad)){
-						if(method_exists($cEntidad, 'getNombre'))
-							$collectionChanges[] = '<span>'.$cEntidad->getNombre().' eliminado.</span>';
-						else
-							$collectionChanges[] = '<span>'.$cEntidad->getId().' eliminado.</span>';
-					}
-				}
-				//Verifica las entidades agregadas
-				foreach ($version->$getter() as $key => $cEntidad) {
-					if(!$this->$getter()->contains($cEntidad))
-						$collectionChanges[] = '<span>'.$cEntidad->getNombre().' agregado.</span>';
-				}
-				if(isset($collectionChanges))
-					$changes[] = array( 'titulo' => $coleccion, 'valor' => implode('</li><li>', $collectionChanges) );
+        //Se comparan las colecciones de entidades
+        foreach ($colecciones as $coleccion) {
+            $getter = 'get' . ucfirst($coleccion);
+            //Verifica las entidades eliminadas
+            foreach ($this->$getter() as $key => $cEntidad) {
+                if (!$version->$getter()->contains($cEntidad)) {
+                    if (method_exists($cEntidad, 'getNombre')) $collectionChanges[] = '<span>' . $cEntidad->getNombre() . ' eliminado.</span>'; else
+                        $collectionChanges[] = '<span>' . $cEntidad->getId() . ' eliminado.</span>';
+                }
+            }
+            //Verifica las entidades agregadas
+            foreach ($version->$getter() as $key => $cEntidad) {
+                if (!$this->$getter()->contains($cEntidad)) $collectionChanges[] = '<span>' . $cEntidad->getNombre() . ' agregado.</span>';
+            }
+            if (isset($collectionChanges)) $changes[] = array('titulo' => $coleccion, 'valor' => implode('</li><li>', $collectionChanges));
 
-				unset($collectionChanges);
-			}
+            unset($collectionChanges);
+        }
 
-			//Se convierten los cambios texto html.
-			if(isset($changes)){
-				foreach ($changes as $key => $change) {
-					$descripcion .= '<p>Modificación en <strong>'.$change["titulo"].'</strong>:';
-					$descripcion .= '<ul><li>'.$change["valor"].'</li></ul>';
-				}
-			}else{
-				$descripcion = '<p>El dataset ha sido guardado pero no se realizaron cambios.</p>';
-			}
+        //Se convierten los cambios texto html.
+        if (isset($changes)) {
+            foreach ($changes as $key => $change) {
+                $descripcion .= '<p>Modificación en <strong>' . $change["titulo"] . '</strong>:';
+                $descripcion .= '<ul><li>' . $change["valor"] . '</li></ul>';
+            }
+        } else {
+            $descripcion = '<p>El dataset ha sido guardado pero no se realizaron cambios.</p>';
+        }
 
-			return $descripcion;
+        return $descripcion;
     }
 
     /**
      * @return Dataset
      */
-    public function getLastVersion(){
-    	if($this->getDatasetVersion())
-    		return $this->getDatasetVersion()->first();
-    	else
-    		return null;
+    public function getLastVersion() {
+        if ($this->getDatasetVersion()) return $this->getDatasetVersion()->first(); else
+            return null;
     }
 
-		public function hasCategoria(\Entities\Categoria $categoria_to_check){
-			foreach ($this->getCategorias() as $key => $categoria) {
-				if($categoria == $categoria_to_check)
-					return true;
-			}
-			return false;
-		}
+    public function hasCategoria(\Entities\Categoria $categoria_to_check) {
+        foreach ($this->getCategorias() as $key => $categoria) {
+            if ($categoria == $categoria_to_check) return true;
+        }
+        return false;
+    }
 
-		public function updateCategorias($categorias){
-			//Se eliminan las categorias asociadas
-			if($this->categorias)
-				$this->categorias->clear();
-			foreach ($categorias as $key => $categoria) {
-				$this->addCategoria($categoria);
-			}
-		}
+    public function updateCategorias($categorias) {
+        //Se eliminan las categorias asociadas
+        if ($this->categorias) $this->categorias->clear();
+        foreach ($categorias as $key => $categoria) {
+            $this->addCategoria($categoria);
+        }
+    }
 
-		public function updateTags($tags){
-			//Se eliminan los tags asociados
-			if($this->tags)
-				$this->tags->clear();
-			foreach ($tags as $key => $tag) {
-				$this->addTag($tag);
-			}
-		}
+    public function updateTags($tags) {
+        //Se eliminan los tags asociados
+        if ($this->tags) $this->tags->clear();
+        foreach ($tags as $key => $tag) {
+            $this->addTag($tag);
+        }
+    }
 
-		public function updateSectores($sectores){
-			//Se eliminan los sectores asociados
-			if($this->sectores)
-				$this->sectores->clear();
-			foreach ($sectores as $key => $sector) {
-				$this->addSector($sector);
-			}
-		}
+    public function updateSectores($sectores) {
+        //Se eliminan los sectores asociados
+        if ($this->sectores) $this->sectores->clear();
+        foreach ($sectores as $key => $sector) {
+            $this->addSector($sector);
+        }
+    }
 
-		public function updateRecursos($recursos){
-			$CI= &get_instance();
+    public function updateRecursos($recursos) {
+        $CI = &get_instance();
 
-			foreach($recursos as $recurso){
-				$nuevoRecurso = $recurso->getCopy();
-				$nuevoRecurso->setDataset($this);
-				$CI->doctrine->em->persist($nuevoRecurso);
-			}
+        foreach ($recursos as $recurso) {
+            $nuevoRecurso = $recurso->getCopy();
+            $nuevoRecurso->setDataset($this);
+            $CI->doctrine->em->persist($nuevoRecurso);
+        }
 
-			$CI->doctrine->em->flush();
-		}
+        $CI->doctrine->em->flush();
+    }
 
-		public function updateDocumentos($documentos){
-			$CI= &get_instance();
+    public function updateDocumentos($documentos) {
+        $CI = &get_instance();
 
-			foreach($documentos as $documento){
-				$nuevoDocumento = $documento->getCopy();
-				$nuevoDocumento->setDataset($this);
-				$CI->doctrine->em->persist($nuevoDocumento);
-			}
-			
-			$CI->doctrine->em->flush();
-		}
+        foreach ($documentos as $documento) {
+            $nuevoDocumento = $documento->getCopy();
+            $nuevoDocumento->setDataset($this);
+            $CI->doctrine->em->persist($nuevoDocumento);
+        }
 
-		public function generaVersion($checkChanges = true){
-			$versionNueva = new Dataset; //Se crea una nueva entidad para almacenar el versionado de los datasets
-			$versionAnterior = $this->getLastVersion();
+        $CI->doctrine->em->flush();
+    }
 
-			//Se crean las asociaciones de la version
-			$versionNueva->setTitulo($this->getTitulo());
-			$versionNueva->setDescripcion($this->getDescripcion());
-			$versionNueva->setLicencia($this->getLicencia());
-			$versionNueva->setFrecuencia($this->getFrecuencia());
-			$versionNueva->setCoberturaTemporal($this->getCoberturaTemporal());
-			$versionNueva->setGranularidad($this->getGranularidad());
-			$versionNueva->setServicio($this->getServicio());
-			$versionNueva->updateCategorias($this->getCategorias());
-			$versionNueva->updateTags($this->getTags());
-			$versionNueva->updateSectores($this->getSectores());
-			$versionNueva->setMaestro(false);
-			$versionNueva->setPublicado(false);
-			$versionNueva->setActualizable(false);
-			$versionNueva->setNdescargas(0);
-			$versionNueva->setUpdatedAt(new \DateTime);
-			$versionNueva->setCreatedAt(new \DateTime);
-            $versionNueva->setIntegracionJunar($this->getIntegracionJunar());
-            $versionNueva->setCoordenadas($this->getCoordenadas());
-            $versionNueva->setDocId('');
+    public function generaVersion($checkChanges = true) {
+        $versionNueva = new Dataset; //Se crea una nueva entidad para almacenar el versionado de los datasets
+        $versionAnterior = $this->getLastVersion();
 
-			$versionNueva->setDatasetMaestro($this);
+        //Se crean las asociaciones de la version
+        $versionNueva->setTitulo($this->getTitulo());
+        $versionNueva->setDescripcion($this->getDescripcion());
+        $versionNueva->setLicencia($this->getLicencia());
+        $versionNueva->setFrecuencia($this->getFrecuencia());
+        $versionNueva->setCoberturaTemporal($this->getCoberturaTemporal());
+        $versionNueva->setGranularidad($this->getGranularidad());
+        $versionNueva->setServicio($this->getServicio());
+        $versionNueva->updateCategorias($this->getCategorias());
+        $versionNueva->updateTags($this->getTags());
+        $versionNueva->updateSectores($this->getSectores());
+        $versionNueva->setMaestro(false);
+        $versionNueva->setPublicado(false);
+        $versionNueva->setActualizable(false);
+        $versionNueva->setNdescargas(0);
+        $versionNueva->setUpdatedAt(new \DateTime);
+        $versionNueva->setCreatedAt(new \DateTime);
+        $versionNueva->setIntegracionJunar($this->getIntegracionJunar());
+        $versionNueva->setCoordenadas($this->getCoordenadas());
+        $versionNueva->setDocId('');
 
-			//Se copian los documentos y los recursos
-		
-			//Se hacen persistentes los cambios en la BD
-			$CI= &get_instance();
-			$CI->doctrine->em->persist($versionNueva);
-			$CI->doctrine->em->flush();
+        $versionNueva->setDatasetMaestro($this);
 
-			//Una vez que el nuevo dataset está guardado en la BD, se hacen las asociaciones con los Recursos y Documento
-			$versionNueva->updateRecursos($this->getRecursos());
-			$versionNueva->updateDocumentos($this->getDocumentos());
+        //Se copian los documentos y los recursos
 
-			if($checkChanges){
-				$cambios = '<p>Se ha creado el dataset.</p>';
-				if($versionAnterior){
-					//En caso de existir un dataset anterior se obtienen los cambios para guardar en el log
-					$cambios = $versionAnterior->compareWith($versionNueva);
-				}
+        //Se hacen persistentes los cambios en la BD
+        $CI = &get_instance();
+        $CI->doctrine->em->persist($versionNueva);
+        $CI->doctrine->em->flush();
 
-				$versionNueva->createLog($cambios);
-			}
+        //Una vez que el nuevo dataset está guardado en la BD, se hacen las asociaciones con los Recursos y Documento
+        $versionNueva->updateRecursos($this->getRecursos());
+        $versionNueva->updateDocumentos($this->getDocumentos());
 
-			return $versionNueva;
-		}
+        if ($checkChanges) {
+            $cambios = '<p>Se ha creado el dataset.</p>';
+            if ($versionAnterior) {
+                //En caso de existir un dataset anterior se obtienen los cambios para guardar en el log
+                $cambios = $versionAnterior->compareWith($versionNueva);
+            }
 
-		public function createLog($cambios){
+            $versionNueva->createLog($cambios);
+        }
 
-			$CI= &get_instance();
+        return $versionNueva;
+    }
 
-			$log = new Log;
-			
-			$log->setDescripcion($cambios);
-			$log->setDatasetMaestro($this->getDatasetMaestro());
-			$log->setDatasetVersion($this);
-			$log->setUsuario(isset($CI->user) ? $CI->user : null);
-			$log->setUpdatedAt(new \DateTime);
-			$log->setCreatedAt(new \DateTime);
+    public function createLog($cambios) {
 
-			$CI->doctrine->em->persist($log);
-			$CI->doctrine->em->flush();
-		}
+        $CI = &get_instance();
 
-		public function togglePublicado(){
-			$id_version_previa = null;
+        $log = new Log;
 
-			$CI= &get_instance();
+        $log->setDescripcion($cambios);
+        $log->setDatasetMaestro($this->getDatasetMaestro());
+        $log->setDatasetVersion($this);
+        $log->setUsuario(isset($CI->user) ? $CI->user : null);
+        $log->setUpdatedAt(new \DateTime);
+        $log->setCreatedAt(new \DateTime);
 
-			$this->setPublicado(!$this->getPublicado());
-			$this->setUpdatedAt(new \DateTime);
+        $CI->doctrine->em->persist($log);
+        $CI->doctrine->em->flush();
+    }
 
-			$maestro = $this->getDatasetMaestro();
-			$maestro->setPublicado($this->getPublicado());
+    public function togglePublicado() {
+        $id_version_previa = null;
 
-			//Si se está publicando el dataset, se busca el publicado anterior y se despublica, solo puede haber 1 publicado.
-			if($this->getPublicado()){
-				$versiones = $maestro->getDatasetVersion();
-				foreach($versiones as $version){
-					if($version != $this && $version->getPublicado()){
-						$version->setPublicado(false);
-						$id_version_previa = $version->getId();
-						$CI->doctrine->em->persist($version);
-					}
-				}
-				$this->setPublicadoAt(new \DateTime);
-				$maestro->setPublicadoAt(new \DateTime);
-			}
+        $CI = &get_instance();
 
-            if(!$maestro->getPrimeraVersionPublicada())
-                $maestro->setPrimeraVersionPublicada($this);
+        $this->setPublicado(!$this->getPublicado());
+        $this->setUpdatedAt(new \DateTime);
 
-			$this->logCambioPublicacion();
-				
-			$CI->doctrine->em->persist($this);
-			$CI->doctrine->em->persist($maestro);
-			$CI->doctrine->em->flush();
+        $maestro = $this->getDatasetMaestro();
+        $maestro->setPublicado($this->getPublicado());
 
-			return $id_version_previa;
-		}
-
-		public function logCambioPublicacion(){
-			$cambios = '<strong>Actualización de Estado de Publicación</strong><br />Versión '.($this->getPublicado()?'publicada':'despublicada');
-			$this->createLog($cambios);
-		}
-
-		public function formatosDisponibles(){
-			$formatos = array();
-      foreach ($this->getRecursos() as $r)
-          $formatos[] = $r->getMime();
-
-      return array_unique($formatos);
-		}
-
-		public function checkUserAccess($rol = null){
-			$CI= &get_instance();
-			if($rol){
-				if(!$CI->user->hasRol($rol)){
-					$CI->addMessage('No tiene permisos suficientes para acceder a este dataset.');
-					redirect('/backend/dataset');
-				}
-			}
-			//Si no es un nuevo dataset, verifica los permisos
-			if($this->getId()){
-				if(!$CI->user->getMinisterial() && !$CI->user->getInterministerial()){
-					if($CI->user->getServicio() != $this->getServicio()){
-						$CI->addMessage('No tiene permiso para ver este dataset.');
-						redirect('/backend/dataset');
-					}
-				}elseif(!$CI->user->getInterministerial()){
-					if($CI->user->getServicio()->getEntidad() != $this->getServicio()->getEntidad()){
-						$CI->addMessage('No tiene permiso para ver este dataset.');
-						redirect('/backend/dataset');
-					}
-				}
-			}
-			return true;
-		}
-
-        public function getCantidadReportesPorEstados($estados = array(2,3,5))
-        {
-            $count = 0;
-            foreach($this->getReportes() as $reporte){
-                if(in_array($reporte->getEstado(), $estados)){
-                    $count++;
+        //Si se está publicando el dataset, se busca el publicado anterior y se despublica, solo puede haber 1 publicado.
+        if ($this->getPublicado()) {
+            $versiones = $maestro->getDatasetVersion();
+            foreach ($versiones as $version) {
+                if ($version != $this && $version->getPublicado()) {
+                    $version->setPublicado(false);
+                    $id_version_previa = $version->getId();
+                    $CI->doctrine->em->persist($version);
                 }
             }
-            return $count;
+            $this->setPublicadoAt(new \DateTime);
+            $maestro->setPublicadoAt(new \DateTime);
         }
 
-        public function getBtnReporteAsociadoCampo($campo = 'titulo', $claseExtra = '')
-        {
-            if(!$this->getMaestro())
-                return '';
+        if (!$maestro->getPrimeraVersionPublicada()) $maestro->setPrimeraVersionPublicada($this);
 
-            $urlReporte = null;
-            $tipoBoton = 'btn-danger';
-            $textoBoton = 'Reportar';
-            $count = 0;
-            //Se busca el primer reporte pendiente y asociado al campo asignado
-            foreach($this->getReportes() as $reporte){
-                if($reporte->getTipoReporte()->getCampoDataset() === $campo && $reporte->getEstado() != 4){
-                    if(!$urlReporte || intval($reporte->getEstado()) === 3){
-                        $urlReporte = 'backend/reporte/edit/'.$reporte->getId();
-                        $tipoBoton = in_array($reporte->getEstado(), array(2,5))?'btn-warning':'btn-success';
-                        $textoBoton = in_array($reporte->getEstado(), array(2,5))?'Pendiente':'Revisar';
-                    }
-                    $count++;
+        $this->logCambioPublicacion();
+
+        $CI->doctrine->em->persist($this);
+        $CI->doctrine->em->persist($maestro);
+        $CI->doctrine->em->flush();
+
+        return $id_version_previa;
+    }
+
+    public function logCambioPublicacion() {
+        $cambios = '<strong>Actualización de Estado de Publicación</strong><br />Versión ' . ($this->getPublicado() ? 'publicada' : 'despublicada');
+        $this->createLog($cambios);
+    }
+
+    public function formatosDisponibles() {
+        $formatos = array();
+        foreach ($this->getRecursos() as $r) $formatos[] = $r->getMime();
+
+        return array_unique($formatos);
+    }
+
+    public function checkUserAccess($rol = null) {
+        $CI = &get_instance();
+        if ($rol) {
+            if (!$CI->user->hasRol($rol)) {
+                $CI->addMessage('No tiene permisos suficientes para acceder a este dataset.');
+                redirect('/backend/dataset');
+            }
+        }
+        //Si no es un nuevo dataset, verifica los permisos
+        if ($this->getId()) {
+            if (!$CI->user->getMinisterial() && !$CI->user->getInterministerial()) {
+                if ($CI->user->getServicio() != $this->getServicio()) {
+                    $CI->addMessage('No tiene permiso para ver este dataset.');
+                    redirect('/backend/dataset');
+                }
+            } elseif (!$CI->user->getInterministerial()) {
+                if ($CI->user->getServicio()->getEntidad() != $this->getServicio()->getEntidad()) {
+                    $CI->addMessage('No tiene permiso para ver este dataset.');
+                    redirect('/backend/dataset');
                 }
             }
+        }
+        return true;
+    }
 
-            if($count){
-                $textoBoton .= '&nbsp;<span>['.$count.']</span>';
+    public function getCantidadReportesPorEstados($estados = array(2, 3, 5)) {
+        $count = 0;
+        foreach ($this->getReportes() as $reporte) {
+            if (in_array($reporte->getEstado(), $estados)) {
+                $count++;
             }
+        }
+        return $count;
+    }
 
-            if(!$urlReporte){
-                $urlReporte = 'backend/reporte/add/'.($this->getId());
-                $urlReporte .= '?campo_dataset='.$campo;
+    public function getBtnReporteAsociadoCampo($campo = 'titulo', $claseExtra = '') {
+        if (!$this->getMaestro()) return '';
+
+        $urlReporte = null;
+        $tipoBoton = 'btn-danger';
+        $textoBoton = 'Reportar';
+        $count = 0;
+        //Se busca el primer reporte pendiente y asociado al campo asignado
+        foreach ($this->getReportes() as $reporte) {
+            if ($reporte->getTipoReporte()->getCampoDataset() === $campo && $reporte->getEstado() != 4) {
+                if (!$urlReporte || intval($reporte->getEstado()) === 3) {
+                    $urlReporte = 'backend/reporte/edit/' . $reporte->getId();
+                    $tipoBoton = in_array($reporte->getEstado(), array(2, 5)) ? 'btn-warning' : 'btn-success';
+                    $textoBoton = in_array($reporte->getEstado(), array(2, 5)) ? 'Pendiente' : 'Revisar';
+                }
+                $count++;
             }
-            return '<a href="'.site_url($urlReporte).'" class="btn btn-small '.$tipoBoton.' '.$claseExtra.'">'.$textoBoton.'</a>';
         }
 
-        public function getCategoriasString()
-        {
-            $result = array();
-            foreach($this->getCategorias() as $categoria){
-                $result[] = $categoria->getNombre();
-            }
-            return implode(', ', $result);
+        if ($count) {
+            $textoBoton .= '&nbsp;<span>[' . $count . ']</span>';
         }
 
-        public function getTagsString()
-        {
-            $result = array();
-            foreach($this->getTags() as $tag){
-                $result[] = $tag->getNombre();
-            }
-            return implode(',', $result);
+        if (!$urlReporte) {
+            $urlReporte = 'backend/reporte/add/' . ($this->getId());
+            $urlReporte .= '?campo_dataset=' . $campo;
+        }
+        return '<a href="' . site_url($urlReporte) . '" class="btn btn-small ' . $tipoBoton . ' ' . $claseExtra . '">' . $textoBoton . '</a>';
+    }
+
+    public function getCategoriasString() {
+        $result = array();
+        foreach ($this->getCategorias() as $categoria) {
+            $result[] = $categoria->getNombre();
+        }
+        return implode(', ', $result);
+    }
+
+    public function getTagsString() {
+        $result = array();
+        foreach ($this->getTags() as $tag) {
+            $result[] = $tag->getNombre();
+        }
+        return implode(',', $result);
+    }
+
+    public function getNombrePrimeraCategoria() {
+        return count($this->categorias) ? $this->categorias[0]->getNombre() : '';
+    }
+
+    public function toArray($idMaestro = false) {
+        $result['id'] = ($idMaestro && !$this->esMaestro()) ? $this->maestro_id : $this->id;
+        $result['titulo'] = $this->getTitulo();
+        $result['descripcion'] = $this->getDescripcion();
+
+        if ($this->getLicencia()) {
+            $result['licencia'] = $this->getLicencia()->toArray();
+        } else {
+            $result['licencia'] = array();
         }
 
-        public function getNombrePrimeraCategoria()
-        {
-            return count($this->categorias) ? $this->categorias[0]->getNombre() : '';
+        if ($this->getServicio()) {
+            $result['servicio'] = $this->getServicio()->toArray();
+        } else {
+            $result['servicio'] = array();
         }
 
-        public function toArray($idMaestro = false)
-        {
-            $result['id'] = ($idMaestro && !$this->esMaestro()) ? $this->maestro_id : $this->id;
-            $result['titulo'] = $this->getTitulo();
-            $result['descripcion'] = $this->getDescripcion();
-
-            if($this->getLicencia()){
-                $result['licencia'] = $this->getLicencia()->toArray();
-            } else {
-                $result['licencia'] = array();
-            }
-
-            if($this->getServicio()){
-                $result['servicio'] = $this->getServicio()->toArray();
-            } else {
-                $result['servicio'] = array();
-            }
-
-            $result['categorias'] = array();
-            foreach($this->getCategorias() as $key => $categoria){
-                $result['categorias'][$key] = $categoria->toArray();
-            }
-
-            foreach ($this->getRecursos() as $key => $recurso) {
-                $result['recursos'][$key] = $recurso->toArray();
-            }
-
-            foreach ($this->getTags() as $key => $tag) {
-                $result['tags'][$key] = $tag->getNombre();
-            }
-
-            $result['fecha_publicacion'] = $this->getPublicadoAt()->format('Y-m-d');
-            $result['fecha_actualizacion'] = $this->getUpdatedAt() ? $this->getUpdatedAt()->format('Y-m-d') : '';
-            $result['coordenadas'] = $this->getCoordenadas();
-            $result['doc_id'] = $this->getDocId();
-            return $result;
+        $result['categorias'] = array();
+        foreach ($this->getCategorias() as $key => $categoria) {
+            $result['categorias'][$key] = $categoria->toArray();
         }
+
+        foreach ($this->getRecursos() as $key => $recurso) {
+            $result['recursos'][$key] = $recurso->toArray();
+        }
+
+        foreach ($this->getTags() as $key => $tag) {
+            $result['tags'][$key] = $tag->getNombre();
+        }
+
+        $result['fecha_publicacion'] = $this->getPublicadoAt()->format('Y-m-d');
+        $result['fecha_actualizacion'] = $this->getUpdatedAt() ? $this->getUpdatedAt()->format('Y-m-d') : '';
+        $result['coordenadas'] = $this->getCoordenadas();
+        $result['frecuencia'] = $this->getFrecuencia();
+        $result['cobertura_temporal'] = $this->getCoberturaTemporal();
+        $result['granularidad'] = $this->getGranularidad();
+        $result['doc_id'] = $this->getDocId();
+        return $result;
+    }
 }

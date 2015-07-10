@@ -40,6 +40,16 @@ class Datasets extends API_REST_Controller {
             'id' => explode(',', trim(element('categoria', $data, '')))
         ));
 
+        $dataset->setTagsByCsv(element('tags', $data, ''));
+
+        $dataset->setCoordenadas(trim(element('coordenadas', $data, '')));
+
+        $dataset->setFrecuencia(trim(element('frecuencia', $data, '')));
+
+        $dataset->setGranularidad(trim(element('granularidad', $data, '')));
+
+        $dataset->setCoberturaTemporal(trim(element('cobertura_temporal', $data, '')));
+
         if(trim(element('titulo', $data, '')))
             $dataset->setTitulo(trim(element('titulo', $data, '')));
 
