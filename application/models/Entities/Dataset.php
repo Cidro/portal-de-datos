@@ -5,6 +5,8 @@ namespace Entities;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+const FECHA_NO_PUBLICADO = '2000-01-01 00:00:00';
+
 /**
  * Entities\Dataset
  */
@@ -424,7 +426,7 @@ class Dataset {
      * @return datetime
      */
     public function getPublicadoAt() {
-        if (gettype($this->publicado_at) != 'object') $this->publicado_at = new \DateTime('2000-01-01 00:00:00');
+        if (gettype($this->publicado_at) != 'object') $this->publicado_at = new \DateTime(FECHA_NO_PUBLICADO);
         return $this->publicado_at;
     }
 
@@ -952,10 +954,15 @@ class Dataset {
         $errors = array();
 
         if (!$this->getTitulo()) $errors[] = 'Debe ingresar un título para el dataset.';
+        if (strlen($this->getTitulo()) >= 255) $errors[] = 'El título para el dataset debe tener como máximo 255 caracteres.';
         if (!$this->getDescripcion()) $errors[] = 'Debe ingresar una descripción para el dataset.';
         if (!$this->getServicio()) $errors[] = 'Debe seleccionar una institución para el dataset.';
         if (!$this->getLicencia()) $errors[] = 'Debe seleccionar una licencia para el dataset.';
         if (count($this->getCategorias()) < 1) $errors[] = 'Debe seleccionar a lo menos una categoría para el dataset.';
+        if (strlen($this->getCoordenadas()) >= 255) $errors[] = 'Las coordenadas del dataset deben tener como máximo 255 caracteres.';
+        if (strlen($this->getGranularidad()) >= 255) $errors[] = 'La granularidad del dataset deben tener como máximo 255 caracteres.';
+        if (strlen($this->getFrecuencia()) >= 255) $errors[] = 'La frecuencia del dataset deben tener como máximo 255 caracteres.';
+        if (strlen($this->getCoberturaTemporal()) >= 255) $errors[] = 'La cobertura temporal del dataset deben tener como máximo 255 caracteres.';
         return $errors;
     }
 
@@ -1307,8 +1314,14 @@ class Dataset {
             $result['tags'][$key] = $tag->getNombre();
         }
 
-        $result['fecha_publicacion'] = $this->getPublicadoAt()->format('Y-m-d');
-        $result['fecha_actualizacion'] = $this->getUpdatedAt() ? $this->getUpdatedAt()->format('Y-m-d') : '';
+        $result['fecha_publicacion'] = $this->getPublicadoAt()->format('Y-m-d H:i:s');
+        if($result['fecha_publicacion'] == FECHA_NO_PUBLICADO)
+            $result['fecha_publicacion'] = null;
+
+        $result['fecha_actualizacion'] = $this->getUpdatedAt() ? $this->getUpdatedAt()->format('Y-m-d H:i:s') : '';
+        if($result['fecha_actualizacion'] == FECHA_NO_PUBLICADO)
+            $result['fecha_actualizacion'] = null;
+
         $result['coordenadas'] = $this->getCoordenadas();
         $result['frecuencia'] = $this->getFrecuencia();
         $result['cobertura_temporal'] = $this->getCoberturaTemporal();
