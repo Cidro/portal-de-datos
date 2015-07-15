@@ -202,4 +202,15 @@ class Entidad
 
         return $publicados;
     }
+
+    /**
+     * Retorna un arreglo con los contenidos del modelo
+     * @return array
+     */
+    public function toArray(){
+        $result['codigo'] = $this->getCodigo();
+        $result['nombre'] = $this->getNombre();
+        $result['sigla'] = $this->getSigla();
+        return $result;
+    }
 }

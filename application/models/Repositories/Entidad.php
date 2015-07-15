@@ -55,4 +55,20 @@ class Entidad extends EntityRepository{
 
         return $query->getResult();
     }
+
+    public function getTotal($options = array()){
+        $qb = $this->_em->createQueryBuilder();
+
+        $qb->select('count(e.codigo)')
+            ->from('Entities\Entidad', 'e');
+
+        foreach($options as $field => $value){
+            if(is_null($value))
+                $qb->andWhere('e.'.$field . ' IS NULL');
+            else
+                $qb->andWhere('e.'.$field . ' = :' . $field)
+                    ->setParameter($field, $value);
+        }
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }
