@@ -319,13 +319,18 @@ class Recurso
             return $this->vistasJunar;
         else {
             $codigo = $this->getCodigo();
-            return $this->getDataset()
+            $recursoMaestro = $this->getDataset()
                 ->getDatasetMaestro()
                 ->getRecursos()
                 ->filter(function(Recurso $recurso) use ($codigo) {
                     return $recurso->getCodigo() == $codigo;
                 })
-                ->first()->getVistasJunar();
+                ->first();
+            //Se debe revisar que el dataset maestro aun tenga el recurso asociado
+            if($recursoMaestro)
+                return $recursoMaestro->getVistasJunar();
+            else
+                return $this->vistasJunar;
         }
     }
 
