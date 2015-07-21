@@ -154,6 +154,8 @@ class Datasets extends API_REST_Controller {
         $offset = intval(element('offset', $params, 0)) * $limit;
         $total = intval($datasets->findWithOrdering(array_merge($filters, array('total' => true)), $ordering));
 
+        $limit = $limit === 0 ? $total : $limit;
+
         $listaDatasets = $datasets->findWithOrdering($filters, $ordering, $limit, $offset);
 
         foreach ($listaDatasets as &$dataset) {
