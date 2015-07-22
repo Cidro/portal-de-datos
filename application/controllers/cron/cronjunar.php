@@ -1,5 +1,8 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+use \Entities\Recurso as Recurso;
+use \Entities\Dataset as Dataset;
+
 class Cronjunar extends CI_Controller {
 
     /**
@@ -63,7 +66,7 @@ class Cronjunar extends CI_Controller {
         $this->catalogo = $this->junar->ultimoCatalogo();
         $this->datasets = $this->catalogo->xpath('dcat:Dataset');
         $this->datasets = $this->normalizaDatasets($this->datasets);
-        log_message('info', 'Catalogo obtenido, total de datasets:' . count($this->catalogo));
+        log_message('info', 'Catalogo obtenido, total de datasets:' . count($this->datasets));
 
         $this->aplicaActualizacionesCatalogo();
 
@@ -108,9 +111,11 @@ class Cronjunar extends CI_Controller {
      * Aplica las actualizaciones obtenidas al portal de datos
      */
     private function aplicaActualizacionesCatalogo() {
-        foreach ($this->datasets as $dataset) {
-            $vistas = $this->normalizaVistasDataset($dataset);
-            $this->creaVistasDataset($dataset, $vistas);
+        foreach ($this->datasets as $junarDataset) {
+            $dataset = $this->datasetRepository->find($junarDataset['dataset_id']);
+            $vistas = $this->normalizaVistasDataset($junarDataset);
+            $recurso = $this->grabaRecursoJunar($dataset, $junarDataset);
+            $this->creaVistasDataset($dataset, $recurso, $junarDataset, $vistas);
         }
     }
 
@@ -124,7 +129,7 @@ class Cronjunar extends CI_Controller {
         $datasetsNormalizdos = array();
         foreach ($datasets as $key => $datasetElement) {
             $dataset = $this->getArrayFromXml($datasetElement);
-            if(isset($dataset['meta'])) {
+            if(isset($dataset['dataset']) && gettype($dataset['dataset']) == 'string') {
                 $dataset['dataset_id'] = $this->getDatasetId($dataset);
                 $datasetsNormalizdos[] = $dataset;
             }else {
@@ -141,7 +146,6 @@ class Cronjunar extends CI_Controller {
      */
     protected function getDatasetId($dataset){
         $dataset_id = null;
-        $url = $dataset['dataset'];
         $parsedUrl = parse_url($dataset['dataset']);
         if(isset($parsedUrl['path'])){
             $segments = explode('/', $parsedUrl['path']);
@@ -169,26 +173,38 @@ class Cronjunar extends CI_Controller {
     }
 
     /**
+     * Crea el recurso de Junar o actualiza uno ya existente
+     * @param Dataset $dataset
+     * @param $junarDataset
+     * @return array|Recurso
+     */
+    protected function grabaRecursoJunar($dataset, $junarDataset){
+        $recurso = $this->recursos->findOneBy(['junar_guid' => $junarDataset['identifier']]);
+        if(!$recurso)
+            $recurso = new Recurso();
+
+        $recurso->setDataset($dataset);
+        $recurso->setDescripcion($junarDataset['description']);
+        $recurso->setUrl($junarDataset['about']);
+        $recurso->setJunarGuid($junarDataset['identifier']);
+
+        return $this->recursos->grabaRecurso($recurso);
+    }
+
+    /**
      * Crea las vistas del catalogo en la BD
      *
+     * @param Dataset $dataset
+     * @param Recurso $recursoVista
      * @param $dataset
      * @param $vistas
      */
-    public function creaVistasDataset($dataset, $vistas){
+    public function creaVistasDataset($datasetRecurso, $recursoVista, $dataset, $vistas){
         foreach ($vistas as $vistaDataset) {
             try {
                 $vistaActual = $this->vistasJunar->findOneBy(array('junar_guid' => $vistaDataset['junar_guid']));
                 //Si no existe la vista se debe crear un nuevo recurso para esta
                 if(!$vistaActual) {
-                    $datasetRecurso = $this->datasetRepository->find($vistaDataset['meta_data']);
-                    if(!$datasetRecurso)
-                        throw new Exception('No se ha encontrado el dataset [' . $vistaDataset['meta_data'] . '], no es posible crear la vista.');
-
-                    $recursoVista = $this->recursos->creaRecurso(array(
-                        'descripcion' => $vistaDataset['description'],
-                        'url' => $vistaDataset['source']
-                    ), $datasetRecurso);
-
                     $vistaActual = new Entities\VistaJunar;
                     $vistaActual->setRecurso($recursoVista);
                     $vistaActual->setCreatedAt(new DateTime());
@@ -202,7 +218,7 @@ class Cronjunar extends CI_Controller {
                 $vistaActual->setCategory($vistaDataset['category']);
                 $vistaActual->setMetaData($vistaDataset['meta_data']);
                 $vistaActual->setTableId($vistaDataset['table_id']);
-                $vistaActual->setType($vistaDataset['type']);
+//                $vistaActual->setType($vistaDataset['type']);
                 $vistaActual->setTags($vistaDataset['tags']);
 
                 $this->doctrine->em->persist($vistaActual);

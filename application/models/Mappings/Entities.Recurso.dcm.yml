@@ -23,6 +23,9 @@ Entities\Recurso:
     size:
       type: integer
       nullable: true
+    junar_guid:
+      type: string
+      nullable: true
     created_at:
       type: datetime
     updated_at:

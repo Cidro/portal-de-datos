@@ -40,6 +40,11 @@ class Recurso
     private $size;
 
     /**
+     * @var string $junar_guid
+     */
+    private $junar_guid;
+
+    /**
      * @var datetime $created_at
      */
     private $created_at;
@@ -195,6 +200,29 @@ class Recurso
     }
 
     /**
+     * Set junar_guid
+     *
+     * @param string $junar_guid
+     * @return Recurso
+     */
+    public function setJunarGuid($junar_guid)
+    {
+        $this->junar_guid = $junar_guid;
+        return $this;
+    }
+
+    /**
+     * Get junar_guid
+     *
+     * @return string
+     */
+    public function getJunarGuid()
+    {
+        return $this->junar_guid;
+    }
+
+
+    /**
      * Set created_at
      *
      * @param datetime $createdAt
@@ -314,12 +342,15 @@ class Recurso
      */
     public function getVistasJunar()
     {
+        $dataset = $this->getDataset();
+        if(!$dataset)
+            return array();
         //Se debe obtener primero el recurso asociado al dataset maestro
-        if($this->getDataset()->esMaestro())
+        if($dataset->esMaestro())
             return $this->vistasJunar;
         else {
             $codigo = $this->getCodigo();
-            $recursoMaestro = $this->getDataset()
+            $recursoMaestro = $dataset
                 ->getDatasetMaestro()
                 ->getRecursos()
                 ->filter(function(Recurso $recurso) use ($codigo) {
@@ -345,6 +376,7 @@ class Recurso
     	$nuevoRecurso->setSize($this->getSize());
     	$nuevoRecurso->setMime($this->getMime());
     	$nuevoRecurso->setCodigo($this->getCodigo());
+        $nuevoRecurso->setJunarGuid($this->getJunarGuid());
     	$nuevoRecurso->setCreatedAt(new \DateTime);
     	$nuevoRecurso->setUpdatedAt(new \DateTime);
     	return $nuevoRecurso;
@@ -406,14 +438,19 @@ class Recurso
         }
 
     public function toArray(){
+        $dataset = $this->getDataset();
+        $result['dataset'] = null;
         $result['id'] = $this->id;
 
-        if($this->getDataset()->esMaestro())
-            $result['dataset_id'] = $this->getDataset()->getId();
-        else
-            $result['dataset_id'] = $this->getDataset()->getDatasetMaestro()->getId();
+        if($dataset){
+            if($dataset->esMaestro())
+                $result['dataset_id'] = $dataset->getId();
+            else
+                $result['dataset_id'] = $dataset->getDatasetMaestro()->getId();
+        }
 
         $result['url'] = $this->url;
+        $result['junar_guid'] = $this->junar_guid;
         $result['descripcion'] = $this->descripcion;
         $result['mime'] = $this->mime;
         foreach($this->getVistasJunar() as $vistaJunar){
