@@ -363,6 +363,7 @@ $config['proxy_ips'] = '';
 
 $config['junar_authkey'] = '';
 $config['junar_baseuri'] = '';
+$config['junar_micrositeuri'] = '';
 
 $config['twitter_account'] = '';
 $config['twitter_stream_widget_id'] = '';

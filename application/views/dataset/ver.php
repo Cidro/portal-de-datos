@@ -43,12 +43,14 @@
                 <h5>Actualizados el <span itemprop="lastReviewed"><?= strftime('%e de %B del %Y', $dataset->getPublicadoAt() ? $dataset->getPublicadoAt()->getTimestamp() : $dataset->getUpdatedAt()->getTimestamp()) ?></span></h5>
             <table class="recursos table table-bordered table-hover table-striped">
               <?php foreach ($recursos as $r): ?>
-                <tr>
-                    <td><a target="_blank" href="<?= site_url('recursos/download/' . $r[0]->getCodigo()) ?>"><?= $r[0]->getDescripcion() != "" ? $r[0]->getDescripcion() : 'Ver recurso'; ?></a></td>
-                    <td><a target="_blank" href="<?= site_url('recursos/download/' . $r[0]->getCodigo()) ?>"><span class="label label-warning"><?php echo mimeHelper::get_mime_name($r[0]->getMime()); ?></span></a></td>
-                    <td><?= number_format($r[0]->getSize() / 1000, 0, ',', '.') ?> KB</td>
-                    <td><? echo intval($r['totaldescargas']); ?> Hits</td>
-                </tr>
+                <?php if($r[0]->getOrigen() != 'junar'): ?>
+                  <tr>
+                      <td><a target="_blank" href="<?= site_url('recursos/download/' . $r[0]->getCodigo()) ?>"><?= $r[0]->getDescripcion() != "" ? $r[0]->getDescripcion() : 'Ver recurso'; ?></a></td>
+                      <td><a target="_blank" href="<?= site_url('recursos/download/' . $r[0]->getCodigo()) ?>"><span class="label label-warning"><?php echo mimeHelper::get_mime_name($r[0]->getMime()); ?></span></a></td>
+                      <td><?= number_format($r[0]->getSize() / 1000, 0, ',', '.') ?> KB</td>
+                      <td><? echo intval($r['totaldescargas']); ?> Hits</td>
+                  </tr>
+                <?php endif; ?>
               <?php endforeach; ?>
             </table>
             <div class="cont-recursos-junar">

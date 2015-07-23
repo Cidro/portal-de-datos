@@ -124,6 +124,7 @@
 			<table class="table" id="tabla-recursos">
 				<thead>
 					<tr>
+                        <th>Origen</th>
 						<th>URL</th>
 						<th>Descripción</th>
 						<th>Tipo</th>
@@ -134,6 +135,7 @@
 				<tbody>
 					<?php foreach ($dataset->getRecursos() as $key => $recurso){ ?>
 						<tr id="recurso-<?php echo $recurso->getId(); ?>">
+                            <td><span class="label label-recurso-<?php echo $recurso->getOrigen(true); ?>"><?php echo $recurso->getOrigen(true); ?></span></td>
 							<td><a target="_blank" href="<?php echo $recurso->getUrl(); ?>"><?php echo $recurso->getUrl(); ?></a></td>
 							<td><?php echo $recurso->getDescripcion(); ?></td>
 							<td><?php echo $recurso->getMime(); ?></td>

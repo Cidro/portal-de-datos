@@ -26,6 +26,9 @@ Entities\Recurso:
     junar_guid:
       type: string
       nullable: true
+    origen:
+      type: string
+      nullable: true
     created_at:
       type: datetime
     updated_at:

@@ -15,7 +15,7 @@
                 <?php foreach($dataset->getRecursos() as $recurso): ?>
                     <tr>
                         <td>
-                            <p><?php echo strip_tags($recurso->getDescripcion()); ?></p>
+                            <p><span class="label label-recurso-<?php echo $recurso->getOrigen(true); ?>"><?php echo $recurso->getOrigen(true); ?></span> <?php echo strip_tags($recurso->getDescripcion()); ?></p>
                             <a class="pull-right" target="_blank" href="<?php echo $recurso->getUrl(); ?>"><i class="icon-share"></i> Url recurso</a>
                         </td>
                         <td>

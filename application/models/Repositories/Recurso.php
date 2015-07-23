@@ -73,6 +73,8 @@ class Recurso extends EntityRepository
         $recurso->setCreatedAt(new \DateTime());
         $recurso->setDescripcion(element('descripcion', $atributos, ''));
         $recurso->setUrl(element('url', $atributos, ''));
+        $recurso->setJunarGuid(element('junar_guid', $atributos, ''));
+        $recurso->setOrigen(element('origen', $atributos, ''));
         $recurso->setUpdatedAt(new \DateTime());
         $recurso->setDataset($dataset);
         $recurso->fetchMetadata();

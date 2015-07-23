@@ -77,11 +77,11 @@ class Cronjunar extends CI_Controller {
      * @param $xmlElement SimpleXMLElement||array
      * @return array
      */
-    protected function getArrayFromXml($xmlElement){
+    protected function getArrayFromXml($xmlElement) {
         $array = array();
-        if(gettype($xmlElement) == 'object' && get_class($xmlElement) == 'SimpleXMLElement'){
+        if (gettype($xmlElement) == 'object' && get_class($xmlElement) == 'SimpleXMLElement') {
             $namespaces = $xmlElement->getNamespaces(true);
-            foreach($namespaces as $namespace => $href){
+            foreach ($namespaces as $namespace => $href) {
                 //Attributes
                 $attributes = $xmlElement->attributes($namespace, '*');
                 if (count($attributes)) {
@@ -92,12 +92,12 @@ class Cronjunar extends CI_Controller {
 
                 //Values
                 $elements = array_merge($array, (array)$xmlElement->children($namespace, true));
-                foreach($elements as $key => $element){
+                foreach ($elements as $key => $element) {
                     $array[$key] = $this->getArrayFromXml($element);
                 }
             }
-        } elseif (gettype($xmlElement) == 'array'){
-            foreach($xmlElement as $key => $element){
+        } elseif (gettype($xmlElement) == 'array') {
+            foreach ($xmlElement as $key => $element) {
                 $array[$key] = $this->getArrayFromXml($element);
             }
         } else {
@@ -112,10 +112,15 @@ class Cronjunar extends CI_Controller {
      */
     private function aplicaActualizacionesCatalogo() {
         foreach ($this->datasets as $junarDataset) {
+            /** @var Dataset $dataset */
             $dataset = $this->datasetRepository->find($junarDataset['dataset_id']);
-            $vistas = $this->normalizaVistasDataset($junarDataset);
-            $recurso = $this->grabaRecursoJunar($dataset, $junarDataset);
-            $this->creaVistasDataset($dataset, $recurso, $junarDataset, $vistas);
+            if(!is_null($dataset)){
+                $vistas = $this->normalizaVistasDataset($junarDataset);
+                $recurso = $this->grabaRecursoJunar($dataset, $junarDataset);
+                $this->creaVistasDataset($dataset, $recurso, $junarDataset, $vistas);
+            } else {
+                log_message('error', 'No se ha encontrado el dataset [' . $junarDataset['dataset_id'] . ']');
+            }
         }
     }
 
@@ -129,10 +134,10 @@ class Cronjunar extends CI_Controller {
         $datasetsNormalizdos = array();
         foreach ($datasets as $key => $datasetElement) {
             $dataset = $this->getArrayFromXml($datasetElement);
-            if(isset($dataset['dataset']) && gettype($dataset['dataset']) == 'string') {
+            if (isset($dataset['dataset']) && gettype($dataset['dataset']) == 'string') {
                 $dataset['dataset_id'] = $this->getDatasetId($dataset);
                 $datasetsNormalizdos[] = $dataset;
-            }else {
+            } else {
                 log_message('warning', 'El Dataset [' . $dataset['identifier'] . '] no se puede enlazar con el portal, falta campo "meta" con la Url del dataset');
             }
         }
@@ -144,10 +149,10 @@ class Cronjunar extends CI_Controller {
      * @param $dataset
      * @return mixed|null
      */
-    protected function getDatasetId($dataset){
+    protected function getDatasetId($dataset) {
         $dataset_id = null;
         $parsedUrl = parse_url($dataset['dataset']);
-        if(isset($parsedUrl['path'])){
+        if (isset($parsedUrl['path'])) {
             $segments = explode('/', $parsedUrl['path']);
             $dataset_id = array_pop($segments);
         }
@@ -163,10 +168,9 @@ class Cronjunar extends CI_Controller {
      */
     private function normalizaVistasDataset($dataset) {
         $vistas = array();
-        if(isset($dataset['chart'])){
+        if (isset($dataset['chart'])) {
             $charts = $dataset['chart'];
-            if(isset($charts['title']))
-                $charts = array($charts);
+            if (isset($charts['title'])) $charts = array($charts);
             $vistas = array_merge($vistas, $this->getVistasChart($dataset, $charts));
         }
         return $vistas;
@@ -178,15 +182,25 @@ class Cronjunar extends CI_Controller {
      * @param $junarDataset
      * @return array|Recurso
      */
-    protected function grabaRecursoJunar($dataset, $junarDataset){
+    protected function grabaRecursoJunar($dataset, $junarDataset) {
+        /** @var Recurso $recurso */
         $recurso = $this->recursos->findOneBy(['junar_guid' => $junarDataset['identifier']]);
-        if(!$recurso)
+
+        if(!is_null($recurso)){
+            //Se verifica que el recurso haya cambiado antes de grabarlo
+            if($recurso->getDescripcion() == $junarDataset['description']
+                && $recurso->getUrl() == $junarDataset['about']){
+                return $recurso;
+            }
+        } else {
             $recurso = new Recurso();
+        }
 
         $recurso->setDataset($dataset);
         $recurso->setDescripcion($junarDataset['description']);
         $recurso->setUrl($junarDataset['about']);
         $recurso->setJunarGuid($junarDataset['identifier']);
+        $recurso->setOrigen('junar');
 
         return $this->recursos->grabaRecurso($recurso);
     }
@@ -199,12 +213,12 @@ class Cronjunar extends CI_Controller {
      * @param $dataset
      * @param $vistas
      */
-    public function creaVistasDataset($datasetRecurso, $recursoVista, $dataset, $vistas){
+    public function creaVistasDataset($datasetRecurso, $recursoVista, $dataset, $vistas) {
         foreach ($vistas as $vistaDataset) {
             try {
                 $vistaActual = $this->vistasJunar->findOneBy(array('junar_guid' => $vistaDataset['junar_guid']));
                 //Si no existe la vista se debe crear un nuevo recurso para esta
-                if(!$vistaActual) {
+                if (!$vistaActual) {
                     $vistaActual = new Entities\VistaJunar;
                     $vistaActual->setRecurso($recursoVista);
                     $vistaActual->setCreatedAt(new DateTime());
@@ -224,7 +238,7 @@ class Cronjunar extends CI_Controller {
                 $this->doctrine->em->persist($vistaActual);
                 $this->doctrine->em->flush();
                 $this->totalVistas++;
-            } catch (Exception $e){
+            } catch (Exception $e) {
                 log_message('error', $e->getMessage());
             }
         }
@@ -237,74 +251,12 @@ class Cronjunar extends CI_Controller {
      * @param $charts
      * @return array
      */
-    protected function getVistasChart($dataset, $charts){
+    protected function getVistasChart($dataset, $charts) {
         $vistas = [];
         foreach ($charts as $chart) {
-            $vistas[] =  array(
-                'junar_guid' => $chart['identifier'],
-                'title' => $chart['title'],
-                'description' => $chart['description'],
-                'source' => $chart['accessURL'],
-                'category' => '',
-                'meta_data' => $dataset['dataset_id'],
-                'table_id' => 0,
-                'type' => 'vistas',
-                'tags' => ''
-            );
+            $vistas[] = array('junar_guid' => $chart['identifier'], 'title' => $chart['title'], 'description' => $chart['description'], 'source' => $chart['accessURL'], 'category' => '', 'meta_data' => $dataset['dataset_id'], 'table_id' => 0, 'type' => 'vistas', 'tags' => '');
         }
 
         return $vistas;
-    }
-
-
-
-    /*
-     * OLD
-     */
-
-
-    private function aplicaCambiosRecurso($recurso, $tipoRecurso, $tipoCambio) {
-        switch ($tipoCambio) {
-            case 'publicados':
-                $this->creaVista($recurso, $tipoRecurso);
-                break;
-            case 'modificados':
-                $this->actualizaVista($recurso, $tipoRecurso);
-                break;
-            case 'despublicados':
-                $this->despublicaVista($recurso, $tipoRecurso);
-                break;
-        }
-    }
-
-    protected function buscaDataEnCatalogo($recurso, $tipo_recurso) {
-        $datasets = array();
-        $guid = $recurso['GUID'];
-        $searchQuery = "dcat:Dataset/dct:identifier//text()[contains(., '" . $guid . "')]/../..";
-        $cambios = $this->catalogo->xpath($searchQuery);
-        foreach ($cambios as $key => $datasetElement) {
-            $dataset = $this->getArrayFromXml($datasetElement);
-            var_dump($dataset);die;
-            $datasets[$key] = $dataset;
-        }
-        return $datasets;
-    }
-
-    private function creaVista($recurso, $tipoRecurso) {
-        try {
-            $data = $this->buscaDataEnCatalogo($recurso, $tipoRecurso);
-            file_put_contents('catalog.json', json_encode($data, JSON_PRETTY_PRINT));
-            die;
-        } catch (\Exception $e) {
-            log_message('info', 'Ha ocurrido un error al intentar crear la vista ');
-        }
-    }
-
-    private function despublicaVista($recurso, $tipoRecurso) {
-        try {
-            $data = $this->buscaDataEnCatalogo($recurso, $tipoRecurso);
-        } catch (\Exception $e) {
-            log_message('warning', 'Ha ocurrido un error al intentar despublicar la vista ');
-        }
     }
 }

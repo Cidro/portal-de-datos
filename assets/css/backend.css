@@ -11,6 +11,14 @@
 	width:180px;
 }
 
+.label-recurso-local {
+    background-color: #3a87ad;
+}
+
+.label-recurso-junar {
+    background-color: #f89406;
+}
+
 #formNoticia input#foto {
 	margin-left: 20px;
 }

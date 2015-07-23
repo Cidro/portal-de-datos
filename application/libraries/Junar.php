@@ -11,7 +11,8 @@ class Junar {
     public function __construct() {
     	$CI = &get_instance();
         $this->authkey = $CI->config->item('junar_authkey');
-        $this->baseUri = $CI->config->item('junar_baseuri');
+        $this->baseUri = rtrim($CI->config->item('junar_baseuri'), '/');
+        $this->micrositeuri = rtrim($CI->config->item('junar_micrositeuri'), '/');
         $this->dev_file_cache = $CI->config->item('junar_development_file_cache');
     }
 
@@ -48,9 +49,9 @@ class Junar {
             $ch = curl_init();
 
             curl_setopt($ch, CURLOPT_HEADER, 0);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //Set curl to return the data instead of printing it to the browser.
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-            curl_setopt($ch, CURLOPT_URL, $this->baseUri . $fileName);
+            curl_setopt($ch, CURLOPT_URL, $this->micrositeuri . '/' . $fileName);
 
             $response = curl_exec($ch);
             file_put_contents($fileName, $response);
@@ -58,6 +59,7 @@ class Junar {
         }
 
         $xmlResponse = new SimpleXMLElement($response);
+        //Se registran los namespace del XML
         $xmlResponse->registerXPathNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
         $xmlResponse->registerXPathNamespace('foaf', 'http://xmlns.com/foaf/0.1/');
         $xmlResponse->registerXPathNamespace('owl', 'http://www.w3.org/2002/07/owl#');

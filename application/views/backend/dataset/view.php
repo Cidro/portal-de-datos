@@ -147,6 +147,7 @@
     <table class="table" id="tabla-recursos">
         <thead>
             <tr>
+                <th>Origen</th>
                 <th>URL</th>
                 <th>Descripción</th>
                 <th>Tipo</th>
@@ -157,6 +158,7 @@
             <?php if (count($dataset->getRecursos())): ?>
                 <?php foreach ($dataset->getRecursos() as $key => $recurso){ ?>
                     <tr id="recurso-<?php echo $recurso->getId(); ?>">
+                        <td><span class="label label-recurso-<?php echo $recurso->getOrigen(true); ?>"><?php echo $recurso->getOrigen(true); ?></span></td>
                         <td><a target="_blank" href="<?php echo $recurso->getUrl(); ?>"><?php echo $recurso->getUrl(); ?></a></td>
                         <td><?php echo $recurso->getDescripcion(); ?></td>
                         <td>
@@ -167,7 +169,7 @@
                 <?php } ?>
             <?php else: ?>
                 <tr>
-                    <th style="text-align:center" colspan="4">No se han encontrado Recursos asociados a este dataset.</th>
+                    <th style="text-align:center" colspan="5">No se han encontrado Recursos asociados a este dataset.</th>
                 </tr>            
             <?php endif ?>
         </tbody>

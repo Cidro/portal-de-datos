@@ -45,6 +45,11 @@ class Recurso
     private $junar_guid;
 
     /**
+     * @var string $origen
+     */
+    private $origen;
+
+    /**
      * @var datetime $created_at
      */
     private $created_at;
@@ -221,6 +226,30 @@ class Recurso
         return $this->junar_guid;
     }
 
+    /**
+     * Set origen
+     *
+     * @param string $origen
+     * @return Recurso
+     */
+    public function setOrigen($origen)
+    {
+        $this->origen = $origen;
+        return $this;
+    }
+
+    /**
+     * Get origen
+     *
+     * @return string
+     */
+    public function getOrigen($display = false)
+    {
+        if($display)
+            return is_null($this->origen) ? 'local' : $this->origen;
+        return $this->origen;
+    }
+
 
     /**
      * Set created_at
@@ -377,6 +406,7 @@ class Recurso
     	$nuevoRecurso->setMime($this->getMime());
     	$nuevoRecurso->setCodigo($this->getCodigo());
         $nuevoRecurso->setJunarGuid($this->getJunarGuid());
+        $nuevoRecurso->setOrigen($this->getOrigen());
     	$nuevoRecurso->setCreatedAt(new \DateTime);
     	$nuevoRecurso->setUpdatedAt(new \DateTime);
     	return $nuevoRecurso;
@@ -411,6 +441,9 @@ class Recurso
 
 			if(!$this->getUrl())
 				$errores[] = 'Debe ingresar una url para el recurso.';
+
+            if(!$this->getDataset())
+                $errores[] = 'El recurso debe tener un Dataset asociado.';
 
 			return $errores;
 		}
@@ -451,6 +484,7 @@ class Recurso
 
         $result['url'] = $this->url;
         $result['junar_guid'] = $this->junar_guid;
+        $result['origen'] = $this->origen;
         $result['descripcion'] = $this->descripcion;
         $result['mime'] = $this->mime;
         foreach($this->getVistasJunar() as $vistaJunar){

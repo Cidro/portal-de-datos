@@ -120,5 +120,7 @@
       })();
     </script>
     <input id="site_url" name="site_url" type="hidden" value="<?php echo site_url(); ?>">
+    <input id="junar_baseuri" name="junar_baseuri" type="hidden" value="<?php echo config_item('junar_baseuri'); ?>">
+    <input id="junar_micrositeuri" name="junar_micrositeuri" type="hidden" value="<?php echo config_item('junar_micrositeuri'); ?>">
 	</body>
 </html>

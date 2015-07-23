@@ -174,7 +174,7 @@
                             }]
                         };
                     }
-
+                
                     var chart = new Highcharts.Chart(options);
                     chart.render();
             });
@@ -305,7 +305,9 @@
     var recursosJunar = {
         init : function(){
             this.contFicha = $('#ficha');
-            this.urlEmbedJuar = 'http://recursos.datos.gob.cl/visualizations/embed/';
+            this.apiUrl = $('#junar_baseuri').val();
+            this.micrositeUrl = $('#junar_micrositeuri').val();
+            this.urlEmbedJuar = this.micrositeUrl + '/visualizations/embed/';
             this.urlRecursosJunar = this.contFicha.find('#urlRecursosJunar').val();
             this.urlVisualizacionesJunar = this.contFicha.find('#urlVisualizacionesJunar').val();
             this.contRecursosJunar = this.contFicha.find('.cont-recursos-junar');

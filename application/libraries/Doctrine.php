@@ -74,6 +74,10 @@ class Doctrine {
     // create the EntityManager
     $em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config);
     $em->getConnection()->exec("SET CHARACTER SET utf8");
+
+    //Enable enum data type
+    $platform = $em->getConnection()->getDatabasePlatform();
+    $platform->registerDoctrineTypeMapping('enum', 'string');
     
     // store it as a member, for use in our CodeIgniter controllers.
     $this->em = $em;
