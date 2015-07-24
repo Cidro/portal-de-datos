@@ -118,6 +118,8 @@ class Cronjunar extends CI_Controller {
                 $vistas = $this->normalizaVistasDataset($junarDataset);
                 $recurso = $this->grabaRecursoJunar($dataset, $junarDataset);
                 $this->creaVistasDataset($dataset, $recurso, $junarDataset, $vistas);
+                //Se verifica que el dataset esté publicado (si el dataset está publicado en junar debe estar publicado en el portal)
+                $this->datasetRepository->cambiarPublicacionUltimaVersion($dataset, true);
             } else {
                 log_message('error', 'No se ha encontrado el dataset [' . $junarDataset['dataset_id'] . ']');
             }
