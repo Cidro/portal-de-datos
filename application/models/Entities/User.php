@@ -358,7 +358,7 @@ class User
     /**
      * Get servicio
      *
-     * @return Entities\Servicio 
+     * @return  \Entities\Servicio
      */
     public function getServicio()
     {
@@ -446,4 +446,32 @@ class User
 			$salted_password = sha1($password.$salt);
 			return $salted_password.':'.$salt;
 	  }
+
+
+
+    /**
+     * @param \Entities\Dataset $dataset
+     * @param array $access
+     * @return boolean
+     */
+    public function hasAccessToDataset($dataset, $access = ['ingreso', 'publicacion']){
+        $servicioDataset = $dataset->getServicio();
+        $entidadDataset = $servicioDataset->getEntidad();
+        $servicioUser = $this->getServicio();
+        $entidadUser = $servicioUser->getEntidad();
+
+        //Revisa el acceso sobre el servicio
+        if($this->getInterministerial()
+            || $servicioUser->getCodigo() == $servicioDataset->getCodigo()
+            || ($this->getMinisterial() &&
+                $entidadUser->getCodigo() == $entidadDataset->getCodigo()
+            )
+        ){
+            //Revisa el si cumple el Rol necesario
+            if($this->hasRol($access))
+                return true;
+        }
+
+        return false;
+    }
 }

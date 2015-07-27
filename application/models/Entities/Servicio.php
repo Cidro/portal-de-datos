@@ -381,7 +381,7 @@ class Servicio
     /**
      * Set entidad
      *
-     * @param Entities\Entidad $entidad
+     * @param \Entities\Entidad $entidad
      * @return Servicio
      */
     public function setEntidad(\Entities\Entidad $entidad = null)
@@ -393,7 +393,7 @@ class Servicio
     /**
      * Get entidad
      *
-     * @return Entities\Entidad 
+     * @return \Entities\Entidad
      */
     public function getEntidad()
     {

@@ -320,7 +320,7 @@ class Recurso
     /**
      * Set dataset
      *
-     * @param Entities\Dataset $dataset
+     * @param \Entities\Dataset $dataset
      * @return Recurso
      */
     public function setDataset(\Entities\Dataset $dataset = null)

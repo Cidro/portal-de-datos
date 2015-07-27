@@ -10,8 +10,10 @@ class Recursos extends API_REST_Controller {
 
         $data = $this->post();
 
+        /** @var \Entities\Dataset $datasets */
+        $dataset = $datasets->find(trim(element('dataset_id', $data, null)));
+
         if(is_null($id)){
-            $dataset = $datasets->find(trim(element('dataset_id', $data, null)));
             $recurso = new \Entities\Recurso();
             $recurso->setDataset($dataset);
         } else {
@@ -30,9 +32,16 @@ class Recursos extends API_REST_Controller {
         if(trim(element('size', $data, null)))
             $recurso->setSize(trim(element('size', $data, null)));
 
-        $result = $recursos->grabaRecurso($recurso);
-        if(!is_array($result)){
-            $recurso = $result;
+        $errors = $recurso->validate();
+
+        if(!$dataset)
+            $errors[] = 'No existe el dataset para asociar el recurso.';
+
+        if(!$this->user->hasAccessToDataset($dataset, 'ingreso'))
+            $errors[] = 'No se tiene acceso a la creación de recursos para este dataset';
+
+        if(empty($errors)){
+            $recurso = $recursos->grabaRecurso($recurso);
             $this->response(array(
                 'meta' => array(
                     'error' => false,
@@ -44,7 +53,7 @@ class Recursos extends API_REST_Controller {
             $this->response(array(
                 'meta' => array(
                     'error' => true,
-                    'messages' => $result
+                    'messages' => $errors
                 ),
                 'item' => null
             ));

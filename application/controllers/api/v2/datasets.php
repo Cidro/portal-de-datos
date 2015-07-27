@@ -17,6 +17,9 @@ class Datasets extends API_REST_Controller {
         $licencias = $this->doctrine->em->getRepository('Entities\Licencia');
         $repoCategorias = $this->doctrine->em->getRepository('Entities\Categoria');
 
+        /** @var \Entities\User $user */
+        $user = $this->user[0];
+
         $data = $this->post();
 
         if(is_null($id)){
@@ -69,6 +72,9 @@ class Datasets extends API_REST_Controller {
         //Solo se deben actualizar datasets maestros
         if(!$dataset->esMaestro())
             $errors[] = 'Dataset inválido para actualización';
+
+        if(!$user->hasAccessToDataset($dataset, 'ingreso'))
+            $errors[] = 'No se tiene acceso a la creación de datasets';
 
         if(empty($errors)){
             $dataset = $datasets->grabaDataset($dataset);

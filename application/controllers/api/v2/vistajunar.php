@@ -43,6 +43,10 @@ class Vistajunar extends API_REST_Controller {
             $vistaJunar->setTags(trim(element('tags', $data, '')));
 
         $errors = $vistaJunar->validate();
+
+        if(!$this->user->hasAccessToDataset($vistaJunar->getRecurso()->getDataset(), 'ingreso'))
+            $errors[] = 'No se tiene acceso a la creación de vistas para este recurso';
+
         if(empty($errors)){
             //Se obtiene el dataset asociado al recurso de la vista
             $dataset = $recurso->getDataset();
