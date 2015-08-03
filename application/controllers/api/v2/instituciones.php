@@ -23,6 +23,7 @@ class Instituciones extends API_REST_Controller {
         $filters = $this->getFilters($availableFilters, $params);
 
         $total = $entidades->getTotal($filters);
+        $limit = $limit === 0 ? $total : $limit;
         $entidades = $entidades->findBy($filters, $ordering, $limit, $offset);
 
         foreach ($entidades as &$entidad) {

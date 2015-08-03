@@ -19,6 +19,7 @@ class Categorias extends API_REST_Controller {
         $ordering = $this->getOrdering($params);
 
         $total = $categorias->getTotal();
+        $limit = $limit === 0 ? $total : $limit;
         $categorias = $categorias->findBy(array(), $ordering, $limit, $offset);
 
         foreach ($categorias as &$categoria) {
