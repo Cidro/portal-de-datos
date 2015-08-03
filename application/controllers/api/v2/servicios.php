@@ -31,6 +31,7 @@ class Servicios extends API_REST_Controller {
         $filters = array_merge($this->getFilters($availableFilters, $params), $forcedFilters);
 
         $total = $servicios->getTotal($filters);
+        $limit = $limit === 0 ? $total : $limit;
         $servicios = $servicios->findBy($filters, $ordering, $limit, $offset);
 
         foreach ($servicios as &$servicio) {
