@@ -73,7 +73,10 @@ class Datasets extends API_REST_Controller {
         if(!$dataset->esMaestro())
             $errors[] = 'Dataset inválido para actualización';
 
-        if(!$user->hasAccessToDataset($dataset, 'ingreso'))
+        if(!$servicio)
+            $errors[] = 'No se ha encontrado el servicio con codigo: ' . element('servicio', $data, null);
+
+        if($servicio && !$user->hasAccessToDataset($dataset, 'ingreso'))
             $errors[] = 'No se tiene acceso a la creación de datasets';
 
         if(empty($errors)){
